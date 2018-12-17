@@ -1,0 +1,47 @@
+<div id="sidebar" class="nav-collapse " tabindex="5000" style="overflow: hidden; outline: none;">
+    <!-- sidebar menu start-->
+    <ul class="sidebar-menu">
+        <li class="active">
+            <a class="" href="index.html">
+                <i class="icon_house_alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon_document_alt"></i>
+                <span>Guidelines</span>
+                <span class="menu-arrow arrow_carrot-right"></span>
+            </a>
+            <ul class="sub">
+                <li><a class="" [routerLink]="['/zhcra/artguidelines']" routerLinkActive="router-link-active">ART Guidelines</a></li>
+                <li><a class="" [routerLink]="['/zhcra/guidelines']" routerLinkActive="router-link-active">OSD Guidelines</a></li>
+            </ul>
+        </li>
+        <li>
+            <a [routerLink]="['/zhcra/quickaccesstools']" routerLinkActive="router-link-active" class="">
+                <i class="icon_desktop"></i>
+                <span>Quick Access Tools</span>
+            </a>
+        </li>
+        <li>
+            <a [routerLink]="['/zhcra/memos']" routerLinkActive="router-link-active" class="">
+                <i class="fa fa-clipboard"></i>
+                <span>Memos</span>
+            </a>
+        </li>
+        <li>
+            <a [routerLink]="['/medicineinformation']" routerLinkActive="router-link-active" class="">
+                <i class="fa fa-medkit"></i>
+                <span>Medicine Information</span>
+            </a>
+        </li>
+        <li>
+            <a class="" href="widgets.html">
+                <i class="fa fa-question"></i>
+                <span>FAQs</span>
+            </a>
+        </li>
+    </ul>
+    <!-- sidebar menu end-->
+</div>
