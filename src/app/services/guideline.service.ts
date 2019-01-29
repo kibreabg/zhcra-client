@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Guideline } from '../models/guideline';
+import { GuidelineType } from '../models/guidelinetype';
 import { Observable } from 'rxjs';
 
 const httpOptions = {
@@ -13,6 +14,7 @@ const httpOptions = {
 export class GuidelineService {
 
   private guidelineUrl = 'http://zhcra.com:8788/api/guidelines';  // URL to web api
+  private guidelineTypeUrl = 'http://zhcra.com:8788/api/guidelinetypes';  // URL to web api
   private uploadUrl = 'http://zhcra.com:8788/api/guidelines/upload';  // URL to web api
 
   constructor(private http: HttpClient) { }
@@ -42,5 +44,9 @@ export class GuidelineService {
       reportProgress: true,
       observe: 'events'
     });
+  }
+
+  getGuidelineTypes(): Observable<GuidelineType[]> {
+    return this.http.get<GuidelineType[]>(this.guidelineTypeUrl, httpOptions);
   }
 }

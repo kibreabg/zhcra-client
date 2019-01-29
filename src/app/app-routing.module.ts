@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
 import { ZhcraComponent } from './zhcra/zhcra.component';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
-import { ArtGuidelineComponent } from './art-guideline/art-guideline.component';
+import { GuidelineTypeComponent } from './guideline-type/guideline-type.component';
 import { MemoComponent } from './memo/memo.component';
 
 const routes: Routes = [
@@ -26,7 +26,7 @@ const routes: Routes = [
     children: [
       { path: 'quickaccesstools', component: QuickAccessToolsComponent, canActivate: [AuthGuard] },
       { path: 'guidelines', component: GuidelinesComponent, canActivate: [AuthGuard] },
-      { path: 'artguidelines', component: ArtGuidelineComponent, canActivate: [AuthGuard] },
+      { path: 'guidelinetypes', component: GuidelineTypeComponent, canActivate: [AuthGuard] },
       { path: 'memos', component: MemoComponent, canActivate: [AuthGuard] },
       { path: 'medicineinformation', component: MedicineInformationComponent, canActivate: [AuthGuard] }
     ]

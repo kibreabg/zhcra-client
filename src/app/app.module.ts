@@ -16,7 +16,7 @@ import { LoginService } from './services/login.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { ZhcraComponent } from './zhcra/zhcra.component';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
-import { ArtGuidelineComponent } from './art-guideline/art-guideline.component';
+import { GuidelineTypeComponent } from './guideline-type/guideline-type.component';
 import { MemoComponent } from './memo/memo.component';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { MemoComponent } from './memo/memo.component';
     LoginComponent,
     ZhcraComponent,
     GuidelinesComponent,
-    ArtGuidelineComponent,
+    GuidelineTypeComponent,
     MemoComponent
   ],
   imports: [

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { GuidelineService } from '../services/guideline.service';
+import { GuidelineType } from '../models/guidelinetype';
 
 declare var $;
 
@@ -16,6 +17,7 @@ export class GuidelinesComponent implements OnInit {
 
   guideline = new Guideline();
   guidelines: Guideline[];
+  guidelinetypes: any;
   dataTable: any;
   selectedFile: File = null;
   uploadProgressPerc = '';
@@ -30,7 +32,7 @@ export class GuidelinesComponent implements OnInit {
     this.messageHidden = true;
     const thisClass = this;
     this.token = 'Bearer ' + this.loginService.getToken();
-    this.dataTable = $('#osdGuideDataTable');
+    this.dataTable = $('#guidelineDataTable');
     this.dataTable.DataTable({
       ajax: {
         headers: {
@@ -55,21 +57,29 @@ export class GuidelinesComponent implements OnInit {
     });
 
     $(document).ready(function() {
-      $('#osdGuideDataTable tbody').on('click', 'tr', function () {
+      $('#guidelineDataTable tbody').on('click', 'tr', function () {
         if ( $(this).hasClass('info') ) {
           $(this).removeClass('info');
         } else {
-          $('#osdGuideDataTable').DataTable().$('tr.info').removeClass('info');
+          $('#guidelineDataTable').DataTable().$('tr.info').removeClass('info');
             $(this).addClass('info');
         }
-        const data = $('#osdGuideDataTable').DataTable().row(this).data();
+        const data = $('#guidelineDataTable').DataTable().row(this).data();
         if (typeof data !== 'undefined') {
           thisClass.getGuideline(data.id);
         }
       });
+
+      thisClass.guidelineService.getGuidelineTypes()
+        .subscribe(
+          guidelinetypes => {
+              $('#type').append($('<option></option>').attr('value', 0).text('--Select Guideline Types--'));
+              $.each(guidelinetypes, function (key, entry) {
+                $('#type').append($('<option></option>').attr('value', entry.id).text(entry.name));
+              });
+          });
     });
   }
-
   addGuideline(): void {
     if (this.guideline.id > 0) {
       this.updateGuideline();
@@ -77,17 +87,15 @@ export class GuidelinesComponent implements OnInit {
       this.guidelineService.addGuideline(this.guideline).subscribe();
       this.dataTable.DataTable().ajax.reload();
       this.messageHidden = false;
-      this.message = 'Added new OSD Guideline';
+      this.message = 'Added new Guideline';
     }
   }
-
   updateGuideline() {
     this.guidelineService.updateGuideline(this.guideline).subscribe();
     this.dataTable.DataTable().ajax.reload();
     this.messageHidden = false;
-    this.message = 'Updated the OSD Guideline';
+    this.message = 'Updated the Guideline';
   }
-
   getGuideline(id: number) {
     return this.guidelineService.getGuideline(id)
       .subscribe(
@@ -95,23 +103,19 @@ export class GuidelinesComponent implements OnInit {
   }
   getGuidelines() {
     return this.guidelineService.getGuidelines()
-      .subscribe(
-        guidelines => { this.guidelines = guidelines; });
+    .subscribe(
+      guidelines => { this.guidelines = guidelines; });
   }
-
   deleteGuideline() {
     this.guidelineService.deleteGuideline(this.guideline.id).subscribe();
     this.dataTable.DataTable().ajax.reload();
     this.messageHidden = false;
-    this.message = 'Deleted the OSD Guideline';
+    this.message = 'Deleted the Guideline';
   }
-
-
   onSelected(event) {
     this.selectedFile = event.target.files[0];
     this.guideline.content = 'Guideline/' + this.selectedFile.name;
   }
-
   uploadContent() {
     const fd = new FormData();
     fd.append('file', this.selectedFile, this.selectedFile.name);
