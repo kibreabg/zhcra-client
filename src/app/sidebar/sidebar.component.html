@@ -2,7 +2,7 @@
     <!-- sidebar menu start-->
     <ul class="sidebar-menu">
         <li class="active">
-            <a class="" href="index.html">
+            <a class="" [routerLink]="['/medicineinformation']" routerLinkActive="router-link-active">
                 <i class="icon_house_alt"></i>
                 <span>Dashboard</span>
             </a>
@@ -14,7 +14,7 @@
                 <span class="menu-arrow arrow_carrot-right"></span>
             </a>
             <ul class="sub">
-                <li><a class="" [routerLink]="['/zhcra/']" routerLinkActive="router-link-active">Guideline Types</a></li>
+                <li><a class="" [routerLink]="['/zhcra/guidelinetypes']" routerLinkActive="router-link-active">Guideline Types</a></li>
                 <li><a class="" [routerLink]="['/zhcra/guidelines']" routerLinkActive="router-link-active">Guidelines</a></li>
             </ul>
         </li>
@@ -37,7 +37,7 @@
             </a>
         </li>
         <li>
-            <a class="" href="widgets.html">
+            <a class="" [routerLink]="['/medicineinformation']" routerLinkActive="router-link-active">
                 <i class="fa fa-question"></i>
                 <span>FAQs</span>
             </a>

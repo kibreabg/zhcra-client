@@ -36,7 +36,7 @@
                                 <label for="content" class="control-label col-lg-2">Content <span class="required">*</span></label>
                                 <div class="row">
                                     <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
-                                        <input class="form-control" id="content" name="content" (change)="onSelected($event)" type="file" required [(ngModel)]="quickaccesstool.content" #content="ngModel">
+                                        <input class="form-control" id="content" name="content" (change)="onContentSelected($event)" type="file" required [(ngModel)]="quickaccesstool.content" #content="ngModel">
 
                                         <span class="badge bg-primary">{{uploadProgressPerc}}</span>
                                         <div [hidden]="content.valid || content.pristine">
@@ -45,6 +45,22 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <button type="button" class="btn btn-default" (click)="uploadContent()">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="icon" class="control-label col-lg-2">Icon <span class="required">*</span></label>
+                                <div class="row">
+                                    <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
+                                        <input class="form-control" id="icon" name="icon" (change)="onIconSelected($event)" type="file" required [(ngModel)]="quickaccesstool.icon" #icon="ngModel">
+
+                                        <span class="badge bg-primary">{{uploadIconProgressPerc}}</span>
+                                        <div [hidden]="icon.valid || icon.pristine">
+                                            <label for="icon" class="error">Icon is required.</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" class="btn btn-default" (click)="uploadIcon()">Upload</button>
                                     </div>
                                 </div>
                             </div>

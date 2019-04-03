@@ -123,4 +123,22 @@ export class GuidelineTypeComponent implements OnInit {
     });
   }
 
+  onSelected(event) {
+    this.selectedFile = event.target.files[0];
+    this.guidelineType.icon = this.selectedFile.name;
+  }
+
+  uploadIcon() {
+    const fd = new FormData();
+    fd.append('file', this.selectedFile, this.selectedFile.name);
+    this.guidelineTypeService.uploadIcon(fd).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        console.log('Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%');
+        this.uploadProgressPerc = 'Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%';
+      } else if (event.type === HttpEventType.Response) {
+        console.log(event);
+      }
+    });
+  }
+
 }

@@ -13,6 +13,7 @@ const httpOptions = {
 export class GuidelineTypeService {
 
   private guidelineTypeUrl = 'http://zhcra.com:8788/api/guidelinetypes';  // URL to web api
+  private uploadUrl = 'http://zhcra.com:8788/api/guidelinetypes/upload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 
@@ -34,5 +35,12 @@ export class GuidelineTypeService {
 
   deleteGuidelineType(id: number): Observable<any> {
     return this.http.delete<GuidelineType>(this.guidelineTypeUrl + '/' + id, httpOptions);
+  }
+
+  uploadIcon(formData: FormData): Observable<any> {
+    return this.http.post<FormData>(this.uploadUrl, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

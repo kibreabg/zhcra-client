@@ -20,6 +20,7 @@ export class QuickAccessToolsComponent implements OnInit {
   selectedFile: File = null;
   message = '';
   uploadProgressPerc = '';
+  uploadIconProgressPerc = '';
   token = '';
   thisClass: any;
   messageHidden: boolean;
@@ -108,9 +109,14 @@ export class QuickAccessToolsComponent implements OnInit {
     this.message = 'Deleted the Quick Access Tool';
   }
 
-  onSelected(event) {
+  onContentSelected(event) {
     this.selectedFile = event.target.files[0];
     this.quickaccesstool.content = 'Quick_Access_Tools/' + this.selectedFile.name;
+  }
+
+  onIconSelected(event) {
+    this.selectedFile = event.target.files[0];
+    this.quickaccesstool.icon = this.selectedFile.name;
   }
 
   uploadContent() {
@@ -118,8 +124,19 @@ export class QuickAccessToolsComponent implements OnInit {
     fd.append('file', this.selectedFile, this.selectedFile.name);
     this.quickAccessToolService.uploadContent(fd).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
-        console.log('Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%');
         this.uploadProgressPerc = 'Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%';
+      } else if (event.type === HttpEventType.Response) {
+        console.log(event);
+      }
+    });
+  }
+
+  uploadIcon() {
+    const fd = new FormData();
+    fd.append('file', this.selectedFile, this.selectedFile.name);
+    this.quickAccessToolService.uploadContent(fd).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.uploadIconProgressPerc = 'Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%';
       } else if (event.type === HttpEventType.Response) {
         console.log(event);
       }

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { GuidelineService } from '../services/guideline.service';
-import { GuidelineType } from '../models/guidelinetype';
 
 declare var $;
 
