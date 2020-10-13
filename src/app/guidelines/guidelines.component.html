@@ -35,7 +35,7 @@
                             <div class="form-group ">
                                 <label for="type" class="control-label col-lg-2">Type <span class="required">*</span></label>
                                 <div class="col-lg-10">
-                                    <select class="form-control m-bot15" name="type" id="type" [(ngModel)]="guideline.type" #type="ngModel">
+                                    <select class="form-control m-bot15" name="type" id="type" (change)="onTypeSelected($event)" [(ngModel)]="guideline.type" #type="ngModel">
                                     </select>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
-                                        <button type="button" class="btn btn-default" (click)="uploadContent()">Upload</button>
+                                        <button type="button" class="btn btn-default" (click)="uploadContent()" [disabled]="type.pristine">Upload</button>
                                     </div>
                                 </div>
                             </div>

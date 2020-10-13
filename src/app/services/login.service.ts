@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './../models/user';
+import { tap } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,6 +25,10 @@ export class LoginService {
     return this.http.post<User>(this.loginUrl + '/logout', httpOptions);
   }
 
+  getUser(): Observable<User> {
+    return this.http.post<User>(this.loginUrl + '/me', httpOptions);
+  }
+
   loggedIn(): any {
     const token = this.getToken();
     if (token) {
@@ -43,5 +48,11 @@ export class LoginService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  refreshToken() {
+    return this.http.post<any>(this.loginUrl + '/refresh', httpOptions).pipe(tap((tokens: any) => {
+      localStorage.setItem('token', tokens);
+    }));
   }
 }

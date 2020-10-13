@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { QuickAccessToolsComponent } from './quick-access-tools/quick-access-tools.component';
-import { MedicineInformationComponent } from './medicine-information/medicine-information.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
 import { LoginService } from './services/login.service';
@@ -18,18 +17,19 @@ import { ZhcraComponent } from './zhcra/zhcra.component';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { GuidelineTypeComponent } from './guideline-type/guideline-type.component';
 import { MemoComponent } from './memo/memo.component';
+import { PrescriptionToolComponent } from './prescription-tool/prescription-tool.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     QuickAccessToolsComponent,
-    MedicineInformationComponent,
     LoginComponent,
     ZhcraComponent,
     GuidelinesComponent,
     GuidelineTypeComponent,
-    MemoComponent
+    MemoComponent,
+    PrescriptionToolComponent
   ],
   imports: [
     BrowserModule,

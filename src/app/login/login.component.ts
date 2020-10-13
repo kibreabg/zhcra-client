@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   login() {
     return this.loginService.login(this.user).subscribe( authCheck => {
       localStorage.setItem('token', authCheck.access_token);
-      this.router.navigate(['/zhcra/quickaccesstools']);
+      this.router.navigate(['/zhcra/guidelines']);
     } );
   }
 }

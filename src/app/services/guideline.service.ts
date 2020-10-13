@@ -46,6 +46,10 @@ export class GuidelineService {
     });
   }
 
+  getGuidelineType(id: number): Observable<GuidelineType> {
+    return this.http.get<GuidelineType>(this.guidelineTypeUrl + '/' + id, httpOptions);
+  }
+
   getGuidelineTypes(): Observable<GuidelineType[]> {
     return this.http.get<GuidelineType[]>(this.guidelineTypeUrl, httpOptions);
   }

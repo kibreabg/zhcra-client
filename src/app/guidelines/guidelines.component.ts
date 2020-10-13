@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { GuidelineService } from '../services/guideline.service';
+import { GuidelineTypeService } from '../services/guideline-type.service';
 
 declare var $;
 
@@ -24,6 +25,7 @@ export class GuidelinesComponent implements OnInit {
   message = '';
   thisClass: any;
   messageHidden: boolean;
+  uploadFolder = '';
 
   constructor(private guidelineService: GuidelineService, private router: Router, private loginService: LoginService) { }
 
@@ -72,7 +74,7 @@ export class GuidelinesComponent implements OnInit {
       thisClass.guidelineService.getGuidelineTypes()
         .subscribe(
           guidelinetypes => {
-              $('#type').append($('<option></option>').attr('value', 0).text('--Select Guideline Types--'));
+              $('#type').append($('<option></option>').attr('value', ' ').text('--Select Guideline Types--'));
               $.each(guidelinetypes, function (key, entry) {
                 $('#type').append($('<option></option>').attr('value', entry.id).text(entry.name));
               });
@@ -113,11 +115,19 @@ export class GuidelinesComponent implements OnInit {
   }
   onSelected(event) {
     this.selectedFile = event.target.files[0];
-    this.guideline.content = 'Guideline/' + this.selectedFile.name;
+    this.guideline.content = this.selectedFile.name;
+  }
+  onTypeSelected(event) {
+    const guidelineTypeId = event.target.selectedOptions[0].value;
+    const guidelineType = this.guidelineService.getGuidelineType(guidelineTypeId);
+    guidelineType.subscribe(gType => {
+      this.uploadFolder = gType.folder;
+    });
   }
   uploadContent() {
     const fd = new FormData();
     fd.append('file', this.selectedFile, this.selectedFile.name);
+    fd.append('type', this.uploadFolder);
     this.guidelineService.uploadContent(fd).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         console.log('Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%');

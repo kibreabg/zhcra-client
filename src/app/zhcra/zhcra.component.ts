@@ -13,11 +13,15 @@ export class ZhcraComponent implements OnInit {
 
   titleHead = 'ZHCRA';
   titleTail = 'Portal';
+  username = '';
 
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
     initializeJS();
+    this.loginService.getUser().subscribe(user => {
+      this.username = user.username;
+    });
   }
 
   logout() {

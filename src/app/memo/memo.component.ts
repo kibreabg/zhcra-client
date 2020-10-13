@@ -29,6 +29,7 @@ export class MemoComponent implements OnInit {
   constructor(private memoService: MemoService, private router: Router, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.memo.latest = false;
     this.messageHidden = true;
     const thisClass = this;
     this.token = 'Bearer ' + this.loginService.getToken();
@@ -115,7 +116,7 @@ export class MemoComponent implements OnInit {
 
   onSelected(event) {
     this.selectedFile = event.target.files[0];
-    this.memo.url = 'Memo/' + this.selectedFile.name;
+    this.memo.url = 'Memos/' + this.selectedFile.name;
   }
 
   uploadContent() {

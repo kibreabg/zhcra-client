@@ -40,7 +40,7 @@
                             "./node_modules/datatables.net-bs/js/dataTables.bootstrap.min.js",
                             "./node_modules/datatables.net-responsive/js/dataTables.responsive.min.js",
                             "./node_modules/datatables.net-responsive-bs/js/responsive.bootstrap.min.js",
-                            "./src/assets/js/jquery.nicescroll.js",
+                            "./node_modules/jquery.nicescroll/dist/jquery.nicescroll.js",
                             "./src/assets/js/jquery.scrollTo.min.js",
                             "./src/assets/js/scripts.js"
                         ]
