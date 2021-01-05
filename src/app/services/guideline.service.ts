@@ -13,9 +13,9 @@ const httpOptions = {
 })
 export class GuidelineService {
 
-  private guidelineUrl = 'http://zhcra.com:8788/api/guidelines';  // URL to web api
-  private guidelineTypeUrl = 'http://zhcra.com:8788/api/guidelinetypes';  // URL to web api
-  private uploadUrl = 'http://zhcra.com:8788/api/guidelines/upload';  // URL to web api
+  private guidelineUrl = 'http://localhost:5000/api/guidelines';  // URL to web api
+  private guidelineTypeUrl = 'http://localhost:5000/api/guidelinetypes';  // URL to web api
+  private uploadUrl = 'http://localhost:5000/api/guidelines/upload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 

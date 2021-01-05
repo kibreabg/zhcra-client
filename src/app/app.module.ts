@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -18,6 +19,7 @@ import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { GuidelineTypeComponent } from './guideline-type/guideline-type.component';
 import { MemoComponent } from './memo/memo.component';
 import { PrescriptionToolComponent } from './prescription-tool/prescription-tool.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +35,11 @@ import { PrescriptionToolComponent } from './prescription-tool/prescription-tool
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BsDatepickerModule.forRoot(),
   ],

@@ -34,7 +34,7 @@ export class PrescriptionToolComponent implements OnInit {
           'Authorization': this.token
         },
         method: 'GET',
-        url: 'http://zhcra.com:8788/api/prescriptiontools',
+        url: 'http://localhost:5000/api/prescriptiontools',
         dataSrc: ''
       },
       columns: [

@@ -12,8 +12,8 @@ const httpOptions = {
 })
 export class QuickaccesstoolsService {
 
-  private quickAccessToolUrl = 'http://zhcra.com:8788/api/quickaccesstools';  // URL to web api
-  private uploadUrl = 'http://zhcra.com:8788/api/quickaccesstools/upload';  // URL to web api
+  private quickAccessToolUrl = 'http://localhost:5000/api/quickaccesstools';  // URL to web api
+  private uploadUrl = 'http://localhost:5000/api/quickaccesstools/upload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 

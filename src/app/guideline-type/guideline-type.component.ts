@@ -37,7 +37,7 @@ export class GuidelineTypeComponent implements OnInit {
           'Authorization': this.token
         },
         method: 'GET',
-        url: 'http://zhcra.com:8788/api/guidelinetypes',
+        url: 'http://localhost:5000/api/guidelinetypes',
         dataSrc: ''
       },
       columns: [

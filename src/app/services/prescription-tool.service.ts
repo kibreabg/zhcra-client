@@ -12,8 +12,8 @@ const httpOptions = {
 })
 export class PrescriptionToolService {  
 
-  private prescriptionToolUrl = 'http://zhcra.com:8788/api/prescriptiontools';  // URL to web api
-  private uploadUrl = 'http://zhcra.com:8788/api/prescriptiontools/upload';  // URL to web api
+  private prescriptionToolUrl = 'http://localhost:5000/api/prescriptiontools';  // URL to web api
+  private uploadUrl = 'http://localhost:5000/api/prescriptiontools/upload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 

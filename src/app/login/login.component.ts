@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     return this.loginService.login(this.user).subscribe( authCheck => {
-      localStorage.setItem('token', authCheck.access_token);
+      localStorage.setItem('token', authCheck.accessToken);
       this.router.navigate(['/zhcra/guidelines']);
     } );
   }

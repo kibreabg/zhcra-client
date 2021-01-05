@@ -3,42 +3,45 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './../models/user';
 import { tap } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
-  private loginUrl = 'http://zhcra.com:8788/api/auth';
+  private loginUrl = 'http://localhost:5000/api/Users';
 
   constructor(private http: HttpClient) { }
 
   login(user: User): Observable<any> {
-    return this.http.post<User>(this.loginUrl + '/login', user, httpOptions);
+    return this.http.post<User>(this.loginUrl + '/Login', user, httpOptions);
   }
 
   logout() {
-    return this.http.post<User>(this.loginUrl + '/logout', httpOptions);
+    return this.http.post<User>(this.loginUrl + '/Logout', httpOptions);
   }
 
   getUser(): Observable<User> {
-    return this.http.post<User>(this.loginUrl + '/me', httpOptions);
+    const token = '"' + this.getToken() + '"';
+    return this.http.post<any>(this.loginUrl + '/GetUserByAccessToken', token, httpOptions);
   }
 
   loggedIn(): any {
     const token = this.getToken();
     if (token) {
       try {
-        const payload = token.split('.')[1];
-        const parsedPayload = JSON.parse(atob(payload));
-        if (parsedPayload) {
-          return parsedPayload.iss === 'http://zhcra.com:8788/api/auth/login' ? true : false;
+        const decodedToken = jwt_decode(token);
+        if (decodedToken) {
+          return decodedToken.iss === 'http://localhost:5000/api/Users/Login'
+            ? true
+            : false;
         }
       } catch (ex) {
+        console.log(ex);
         return false;
       }
     } else {
@@ -51,8 +54,10 @@ export class LoginService {
   }
 
   refreshToken() {
-    return this.http.post<any>(this.loginUrl + '/refresh', httpOptions).pipe(tap((tokens: any) => {
-      localStorage.setItem('token', tokens);
-    }));
+    return this.http.post<any>(this.loginUrl + '/refresh', httpOptions).pipe(
+      tap((tokens: any) => {
+        localStorage.setItem('token', tokens);
+      })
+    );
   }
 }

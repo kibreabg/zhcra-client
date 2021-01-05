@@ -12,8 +12,8 @@ const httpOptions = {
 })
 export class MemoService {
 
-  private memoUrl = 'http://zhcra.com:8788/api/memos';  // URL to web api
-  private uploadUrl = 'http://zhcra.com:8788/api/memos/upload';  // URL to web api
+  private memoUrl = 'http://localhost:5000/api/memos';  // URL to web api
+  private uploadUrl = 'http://localhost:5000/api/memos/upload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 

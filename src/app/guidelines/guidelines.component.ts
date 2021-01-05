@@ -5,6 +5,8 @@ import { LoginService } from '../services/login.service';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { GuidelineService } from '../services/guideline.service';
 import { GuidelineTypeService } from '../services/guideline-type.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { GuidelineType } from '../models/guidelinetype';
 
 declare var $;
 
@@ -15,9 +17,16 @@ declare var $;
 })
 export class GuidelinesComponent implements OnInit {
 
+  form = new FormGroup({
+    title: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required),
+    order: new FormControl('', Validators.required),
+  });
+
   guideline = new Guideline();
   guidelines: Guideline[];
-  guidelinetypes: any;
+  guidelinetypes: GuidelineType[];
   dataTable: any;
   selectedFile: File = null;
   uploadProgressPerc = '';
@@ -40,78 +49,94 @@ export class GuidelinesComponent implements OnInit {
           'Authorization': this.token
         },
         method: 'GET',
-        url: 'http://zhcra.com:8788/api/guidelines',
+        url: 'http://localhost:5000/api/guidelines',
         dataSrc: ''
       },
       columns: [
-        { data: 'id'},
+        { data: 'id' },
         { data: 'title' },
         { data: 'content' },
         { data: 'order' }
       ],
       columnDefs: [
         {
-            targets: [ 0 ],
-            visible: false
+          targets: [0],
+          visible: false
         }
-    ]
+      ]
     });
 
-    $(document).ready(function() {
+    this.guidelineService.getGuidelineTypes()
+      .subscribe(
+        guidelinetypes => {
+          this.guidelinetypes = guidelinetypes;
+        });
+
+    $(document).ready(function () {
       $('#guidelineDataTable tbody').on('click', 'tr', function () {
-        if ( $(this).hasClass('info') ) {
+        if ($(this).hasClass('info')) {
           $(this).removeClass('info');
         } else {
           $('#guidelineDataTable').DataTable().$('tr.info').removeClass('info');
-            $(this).addClass('info');
+          $(this).addClass('info');
         }
         const data = $('#guidelineDataTable').DataTable().row(this).data();
         if (typeof data !== 'undefined') {
           thisClass.getGuideline(data.id);
         }
       });
-
-      thisClass.guidelineService.getGuidelineTypes()
-        .subscribe(
-          guidelinetypes => {
-              $('#type').append($('<option></option>').attr('value', ' ').text('--Select Guideline Types--'));
-              $.each(guidelinetypes, function (key, entry) {
-                $('#type').append($('<option></option>').attr('value', entry.id).text(entry.name));
-              });
-          });
     });
   }
   addGuideline(): void {
     if (this.guideline.id > 0) {
       this.updateGuideline();
     } else {
-      this.guidelineService.addGuideline(this.guideline).subscribe();
-      this.dataTable.DataTable().ajax.reload();
-      this.messageHidden = false;
-      this.message = 'Added new Guideline';
+      this.guideline.createdAt = new Date();
+      this.guidelineService.addGuideline(this.guideline).subscribe(
+        guideline => {
+          if (guideline.id > 0) {
+            this.dataTable.DataTable().ajax.reload();
+            this.messageHidden = false;
+            this.message = 'Added new Guideline';
+          } else {
+            this.messageHidden = false;
+            this.message = 'An Error Occured';
+          }
+        }
+      );
+
     }
   }
   updateGuideline() {
-    this.guidelineService.updateGuideline(this.guideline).subscribe();
-    this.dataTable.DataTable().ajax.reload();
-    this.messageHidden = false;
-    this.message = 'Updated the Guideline';
+    this.guidelineService.updateGuideline(this.guideline).subscribe(
+      guideline => {
+        this.dataTable.DataTable().ajax.reload();
+        this.messageHidden = false;
+        this.message = 'Updated the Guideline';
+      });
   }
   getGuideline(id: number) {
     return this.guidelineService.getGuideline(id)
       .subscribe(
-        guideline => { this.guideline = guideline; });
+        guideline => {
+          this.form.setValue({ title: guideline.title, type: guideline.type, content: guideline.content, order: guideline.order });
+        });
   }
   getGuidelines() {
     return this.guidelineService.getGuidelines()
-    .subscribe(
-      guidelines => { this.guidelines = guidelines; });
+      .subscribe(
+        guidelines => {
+          this.guidelines = guidelines;
+        });
   }
   deleteGuideline() {
-    this.guidelineService.deleteGuideline(this.guideline.id).subscribe();
-    this.dataTable.DataTable().ajax.reload();
-    this.messageHidden = false;
-    this.message = 'Deleted the Guideline';
+    this.guidelineService.deleteGuideline(this.guideline.id)
+      .subscribe(
+        result => {
+          this.dataTable.DataTable().ajax.reload();
+          this.messageHidden = false;
+          this.message = 'Deleted the Guideline';
+        });
   }
   onSelected(event) {
     this.selectedFile = event.target.files[0];
