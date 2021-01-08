@@ -17,7 +17,7 @@ export class MemoComponent implements OnInit {
   memo = new Memo();
   memos: Memo[];
 
-  @ViewChild('memoDataTable') memoDT: ElementRef;
+  @ViewChild('memoDataTable', {static: false}) memoDT: ElementRef;
   dataTable: any;
   selectedFile: File = null;
   message = '';

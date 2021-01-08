@@ -35,28 +35,37 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="form-group">         
-                                <span class="col-lg-2"></span>                       
+                            <div class="form-group">
+                                <span class="col-lg-2"></span>
                                 <div class="col-lg-10">
                                     <mat-form-field class="full-width" appearance="outline">
                                         <mat-label>Choose one</mat-label>
                                         <mat-select formControlName="type" (change)="onTypeSelected($event)">
                                             <mat-option>Select Type</mat-option>
-                                            <mat-option *ngFor="let guidelinetype of guidelinetypes" value="guidelinetype.id">{{guidelinetype.name}}</mat-option>
+                                            <mat-option *ngFor="let guidelinetype of guidelinetypes" value="{{guidelinetype.id}}">{{guidelinetype.name}}</mat-option>
                                         </mat-select>
                                         <mat-error *ngIf="form.get('type').hasError('required')">Type must be selected</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="content" class="control-label col-lg-2">Content <span class="required">*</span></label>
-                                <div class="row">
-                                    <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
-                                        <input class="form-control" formControlName="content" (change)="onSelected($event)" type="file">
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <button type="button" class="btn btn-default" (click)="uploadContent()">Upload</button>
-                                    </div>
+                              <span class="col-lg-2"></span>
+                                <div class="col-lg-10">
+                                    <mat-form-field class="full-width-upload" appearance="outline">
+                                        <mat-toolbar>
+                                            <!-- Display files names -->
+                                            <input matInput formControlName="content" readonly />
+                                            <!-- Browse Button -->
+                                            <button mat-flat-button color="primary">
+                                              Browse File
+                                            </button>
+                                        </mat-toolbar>
+                                        <!-- Fetch selected filed on change -->
+                                        <input type="file" #fileInput id="uploadFile" (change)="onSelected($event)"/>
+                                        <mat-error *ngIf="form.get('content').hasError('required')">
+                                            Content is <strong>required!</strong>
+                                        </mat-error>
+                                    </mat-form-field>
                                 </div>
                             </div>
                             <div class="form-group">
