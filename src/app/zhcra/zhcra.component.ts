@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 
-declare function initializeJS(): any;
-
 @Component({
   selector: 'app-zhcra',
   templateUrl: './zhcra.component.html',
@@ -18,7 +16,6 @@ export class ZhcraComponent implements OnInit {
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
-    initializeJS();
     this.loginService.getUser().subscribe(user => {
       this.username = user.username;
     });

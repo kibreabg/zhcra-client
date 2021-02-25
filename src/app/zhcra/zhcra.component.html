@@ -1,75 +1,106 @@
-<section id="container" class="">
-    <header class="header dark-bg">
-        <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
-        </div>
+  <!--sidebar start-->
+  <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+    <div class="c-sidebar-brand d-lg-down-none">
+      <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+        <use href=""></use>
+      </svg>
+      <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
+        <use href=""></use>
+      </svg>
+    </div>
+    <ul class="c-sidebar-nav">
+      <li class="c-sidebar-nav-title">Resources</li>
+      <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle"
+          href="">
+          <img src="assets/icons/cil-clipboard.svg" class="c-sidebar-nav-icon" /> Guidelines</a>
+        <ul class="c-sidebar-nav-dropdown-items">
+          <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link" [routerLink]="['/zhcra/guidelinetypes']"
+              routerLinkActive="router-link-active">
+              <span class="c-sidebar-nav-icon"></span> Guideline Types</a>
+          </li>
+          <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link" [routerLink]="['/zhcra/guidelines']" routerLinkActive="router-link-active">
+              <span class="c-sidebar-nav-icon"></span> Guidelines</a>
+          </li>
+        </ul>
+      </li>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" [routerLink]="['/zhcra/quickaccesstools']" routerLinkActive="router-link-active">
+          <img src="assets/icons/cil-bookmark.svg" class="c-sidebar-nav-icon" /> Quick Access Tools</a>
+      </li>
+      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/zhcra/memos']"
+          routerLinkActive="router-link-active">
+          <img src="assets/icons/cil-notes.svg" class="c-sidebar-nav-icon" /> Memos</a>
+      </li>
+      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/zhcra/prescriptiontool']"
+          routerLinkActive="router-link-active">
+          <img src="assets/icons/cil-medical-cross.svg" class="c-sidebar-nav-icon" /> Prescription Tool</a>
+      </li>
+      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/']">
+          <img src="assets/icons/cil-comment-bubble.svg" class="c-sidebar-nav-icon" /> FAQ</a>
+      </li>
+    </ul>
+    <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent"
+      data-class="c-sidebar-minimized"></button>
+  </div>
 
-        <!--logo start-->
-        <a href="index.html" class="logo">{{titleHead}} <span class="lite">{{titleTail}}</span></a>
-        <!--logo end-->
+  <!--sidebar end-->
 
-        <div class="nav search-row" id="top_menu">
-            <!--  search form start -->
-            <ul class="nav top-menu">
-                <li>
-                    <form class="navbar-form">
-                        <input class="form-control" placeholder="Search" type="text">
-                    </form>
-                </li>
-            </ul>
-            <!--  search form end -->
-        </div>
-
-        <div class="top-nav notification-row">
-            <!-- notificatoin dropdown start-->
-            <ul class="nav pull-right top-menu">
-
-                <!-- task notificatoin start -->
-
-                <!-- task notificatoin end -->
-                <!-- inbox notificatoin start-->
-
-                <!-- inbox notificatoin end -->
-                <!-- alert notification start-->
-
-                <!-- alert notification end-->
-                <!-- user login dropdown start-->
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="profile-ava">
-          <img alt="" src="./../../assets/img/avatar1_small.jpg">
-        </span>
-                        <span class="username">{{username}}</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu extended logout">
-                        <div class="log-arrow-up"></div>
-                        <li>
-                            <a (click)="logout()" [routerLink]="" routerLinkActive="router-link-active"><i class="icon_key_alt"></i> Log Out</a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- user login dropdown end -->
-            </ul>
-            <!-- notificatoin dropdown end-->
-        </div>
-    </header>
-    <!--header end-->
-
-    <!--sidebar start-->
-    <aside>
-        <app-sidebar></app-sidebar>
-    </aside>
-    <!--sidebar end-->
-
-    <!--main content start-->
-    <section id="main-content">
-        <router-outlet></router-outlet>
-        <div class="text-right">
-            <div class="credits">
-                Designed by CHAI Zimbabwe
+  <!--main content start-->
+  <div class="c-wrapper c-fixed-components">
+    <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+      <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar"
+        data-class="c-sidebar-show">
+        <svg class="c-icon c-icon-lg">
+          <use href="../node_modules/@coreui/icons/svg/free/cil-menu.svg"></use>
+        </svg>
+      </button><a class="c-header-brand d-lg-none" href="#">
+        <svg width="118" height="46" alt="CoreUI Logo">
+          <use href=""></use>
+        </svg></a>
+      <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
+        data-class="c-sidebar-lg-show" responsive="true">
+        <img src="assets/icons/cil-menu.svg" class="c-icon c-icon-lg" />
+      </button>
+      <ul class="c-header-nav d-md-down-none">
+        <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="#">Dashboard</a></li>
+        <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="#">User</a></li>
+        <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="#">Settings</a></li>
+      </ul>
+      <ul class="c-header-nav ml-auto mr-4">
+        <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#"
+            role="button" aria-haspopup="true" aria-expanded="false">
+            <div class="c-avatar"><img class="c-avatar-img" src="assets/img/avatar1_small.jpg" alt="user@email.com">
             </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right pt-0">
+            <a class="dropdown-item" href="#">
+              <img src="assets/icons/cil-account-logout.svg" class="c-icon mr-2" />Logout</a>
+          </div>
+        </li>
+      </ul>
+      <div class="c-subheader px-3">
+        <!-- Breadcrumb-->
+        <ol class="breadcrumb border-0 m-0">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item active">Guidelines</li>
+          <!-- Breadcrumb Menu-->
+        </ol>
+      </div>
+    </header>
+    <div class="c-body">
+      <main class="c-main">
+        <div class="container-fluid">
+          <div class="fade-in">
+            <router-outlet></router-outlet>
+          </div>
         </div>
-    </section>
-    <!--main content end-->
-</section>
+      </main>
+      <footer class="c-footer">
+        <div class="ml-auto">Powered by Zimbabwe MOH & Clinton Health Access Initiative</div>
+      </footer>
+    </div>
+  </div>
+  <!--main content end-->

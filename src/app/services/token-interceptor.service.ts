@@ -20,21 +20,11 @@ export class TokenInterceptorService implements HttpInterceptor {
 
     const tokenizedReq = this.addTokenToRequest(req, this.loginService.getToken());
 
-    return next.handle(tokenizedReq).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse) {
-          if (error.status === 401) {
-            this.router.navigate(['/login']);
-            // return this.handle401Error(tokenizedReq, next);
-          }
-        } else {
-          return throwError(error);
-        }
-      }));
+    return next.handle(tokenizedReq);
   }
 
   private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    return request.clone({ setHeaders: { Authorization: `Bearer ${token}`}});
+    return request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {

@@ -20,6 +20,11 @@ import { GuidelineTypeComponent } from './guideline-type/guideline-type.componen
 import { MemoComponent } from './memo/memo.component';
 import { PrescriptionToolComponent } from './prescription-tool/prescription-tool.component';
 import { MaterialModule } from './material/material.module';
+import { DataTableComponent } from './data-table/data-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,8 @@ import { MaterialModule } from './material/material.module';
     GuidelinesComponent,
     GuidelineTypeComponent,
     MemoComponent,
-    PrescriptionToolComponent
+    PrescriptionToolComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,
@@ -42,13 +48,17 @@ import { MaterialModule } from './material/material.module';
     ReactiveFormsModule,
     HttpClientModule,
     BsDatepickerModule.forRoot(),
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [LoginService, AuthGuard,
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptorService,
-    multi: true
-  }],
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    EventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

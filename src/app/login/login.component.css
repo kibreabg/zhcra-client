@@ -1,16 +1,20 @@
 .checkbox {
-    display: block;
-    min-height: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 20px;
-    vertical-align: middle;
+  display: block;
+  min-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  vertical-align: middle;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .btn-primary {
-    color: #ffffff;
-    background-color: #007aff;
-    border-color: #007aff;
+  color: #ffffff;
+  background-color: #007aff;
+  border-color: #007aff;
 }
 
 .btn-primary:hover,
@@ -18,21 +22,21 @@
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    color: #007aff;
-    border-color: #007aff;
-    background: transparent;
+  color: #007aff;
+  border-color: #007aff;
+  background: transparent;
 }
 
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    background-image: none;
+  background-image: none;
 }
 
 .btn-info {
-    color: #ffffff;
-    background-color: #34aadc;
-    border-color: #34aadc;
+  color: #ffffff;
+  background-color: #34aadc;
+  border-color: #34aadc;
 }
 
 .btn-info:hover,
@@ -40,15 +44,15 @@
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
-    color: #34aadc;
-    background: transparent;
-    border-color: #34aadc;
+  color: #34aadc;
+  background: transparent;
+  border-color: #34aadc;
 }
 
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
-    background-image: none;
+  background-image: none;
 }
 
 .btn-info.disabled,
@@ -66,6 +70,6 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-    background-color: #34aadc;
-    border-color: #34aadc;
+  background-color: #34aadc;
+  border-color: #34aadc;
 }

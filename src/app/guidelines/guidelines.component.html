@@ -1,124 +1,87 @@
-<section class="wrapper">
-    <!--overview start-->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-laptop"></i> Guideline</h3>
-            <ol class="breadcrumb">
-                <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-                <li><i class="fa fa-laptop"></i>OSD Guideline</li>
-            </ol>
-        </div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-success alert-dismissible fade in" [hidden]="messageHidden" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+      <strong>Success!</strong> {{ message }}
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="alert alert-success alert-dismissible fade in" [hidden]="messageHidden" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                                        </button>
-                <strong>Success!</strong> {{ message }}
+    <div class="card">
+      <div class="card-header">
+        Enter Guideline Information
+      </div>
+      <div class="card-body">
+        <form class="form-validate form-horizontal" (ngSubmit)="addGuideline()" [formGroup]="form">
+          <div class="form-group">
+            <label class="col-form-label">Title</label>
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title" />
+              <mat-error *ngIf="form.get('title').hasError('required')">
+                Title is <strong>required!</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Guideline Type</label>
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Choose one</mat-label>
+              <mat-select formControlName="type" (change)="onTypeSelected($event)">
+                <mat-option>Select Type</mat-option>
+                <mat-option *ngFor="let guidelinetype of guidelinetypes" value="{{ guidelinetype.id }}">
+                  {{ guidelinetype.name }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('type').hasError('required')">Type must be selected</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Upload the Guideline</label>
+            <mat-form-field class="full-width-upload" appearance="outline">
+              <mat-toolbar>
+                <!-- Display files names -->
+                <input matInput formControlName="content" readonly />
+                <!-- Browse Button -->
+                <button mat-flat-button color="primary">
+                  Browse File
+                </button>
+              </mat-toolbar>
+              <!-- Fetch selected filed on change -->
+              <input type="file" #fileInput id="uploadFile" (change)="onSelected($event)" />
+              <mat-error *ngIf="form.get('content').hasError('required')">
+                Content is <strong>required!</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Appearance Order</label>
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Order</mat-label>
+              <input matInput formControlName="order" type="number" />
+              <mat-error *ngIf="form.get('order').hasError('required')">
+                Order is <strong>required!</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-actions">
+            <div class="col-lg-offset-2 col-lg-10">
+              <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+                Save
+              </button>
+              <button mat-raised-button color="warn" (click)="deleteGuideline()">
+                Delete
+              </button>
             </div>
-            <section class="panel">
-                <header class="panel-heading">
-                    Enter OSD Guideline Data
-                </header>
-                <div class="panel-body">
-                    <div class="form">
-                        <form class="form-validate form-horizontal" (ngSubmit)="addGuideline()" [formGroup]="form">
-                            <div class="form-group ">
-                                <span class="col-lg-2"></span>
-                                <div class="col-lg-10">
-                                    <mat-form-field class="full-width" appearance="outline">
-                                        <mat-label>Title</mat-label>
-                                        <input matInput formControlName="title">
-                                        <mat-error *ngIf="form.get('title').hasError('required')">
-                                            Title is <strong>required!</strong>
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <span class="col-lg-2"></span>
-                                <div class="col-lg-10">
-                                    <mat-form-field class="full-width" appearance="outline">
-                                        <mat-label>Choose one</mat-label>
-                                        <mat-select formControlName="type" (change)="onTypeSelected($event)">
-                                            <mat-option>Select Type</mat-option>
-                                            <mat-option *ngFor="let guidelinetype of guidelinetypes" value="{{guidelinetype.id}}">{{guidelinetype.name}}</mat-option>
-                                        </mat-select>
-                                        <mat-error *ngIf="form.get('type').hasError('required')">Type must be selected</mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                              <span class="col-lg-2"></span>
-                                <div class="col-lg-10">
-                                    <mat-form-field class="full-width-upload" appearance="outline">
-                                        <mat-toolbar>
-                                            <!-- Display files names -->
-                                            <input matInput formControlName="content" readonly />
-                                            <!-- Browse Button -->
-                                            <button mat-flat-button color="primary">
-                                              Browse File
-                                            </button>
-                                        </mat-toolbar>
-                                        <!-- Fetch selected filed on change -->
-                                        <input type="file" #fileInput id="uploadFile" (change)="onSelected($event)"/>
-                                        <mat-error *ngIf="form.get('content').hasError('required')">
-                                            Content is <strong>required!</strong>
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <span class="col-lg-2"></span>
-                                <div class="col-lg-10">
-                                    <mat-form-field class="full-width" appearance="outline">
-                                        <mat-label>Order</mat-label>
-                                        <input matInput formControlName="order" type="number">
-                                        <mat-error *ngIf="form.get('order').hasError('required')">
-                                            Order is <strong>required!</strong>
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-10">
-                                    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Save</button>
-                                    <button mat-raised-button color="warn" (click)="deleteGuideline()">Delete</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </section>
-        </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <section class="panel">
-                <header class="panel-heading">
-                    Guidelines List
-                </header>
-
-                <table id="guidelineDataTable" class="table table-bordered table-hover dt-responsive nowrap" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Order</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Order</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </section>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        Guidelines List
+      </div>
+      <div class="card-body">
+        <app-data-table></app-data-table>
+      </div>
     </div>
-</section>
+  </div>
+</div>

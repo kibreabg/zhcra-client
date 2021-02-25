@@ -7,8 +7,7 @@ import { GuidelineService } from '../services/guideline.service';
 import { GuidelineTypeService } from '../services/guideline-type.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GuidelineType } from '../models/guidelinetype';
-
-declare var $;
+import { EventEmitterService } from '../services/event-emitter.service';
 
 @Component({
   selector: 'app-guidelines',
@@ -27,66 +26,36 @@ export class GuidelinesComponent implements OnInit {
   guideline = new Guideline();
   guidelines: Guideline[];
   guidelinetypes: GuidelineType[];
-  dataTable: any;
   selectedFile: File = null;
-  uploadProgressPerc = '';
   token = '';
   message = '';
   thisClass: any;
   messageHidden: boolean;
   uploadFolder = '';
 
-  constructor(private guidelineService: GuidelineService, private router: Router, private loginService: LoginService) { }
+  constructor(
+    private guidelineService: GuidelineService,
+    private router: Router,
+    private loginService: LoginService,
+    private eventEmitterService: EventEmitterService) { }
 
   ngOnInit() {
     this.messageHidden = true;
-    const thisClass = this;
     this.token = 'Bearer ' + this.loginService.getToken();
-    this.dataTable = $('#guidelineDataTable');
-    this.dataTable.DataTable({
-      ajax: {
-        headers: {
-          'Authorization': this.token
-        },
-        method: 'GET',
-        url: 'http://localhost:5000/api/guidelines',
-        dataSrc: ''
-      },
-      columns: [
-        { data: 'id' },
-        { data: 'title' },
-        { data: 'content' },
-        { data: 'order' }
-      ],
-      columnDefs: [
-        {
-          targets: [0],
-          visible: false
-        }
-      ]
-    });
+    if (this.eventEmitterService.subsVar == undefined) {
+      this.eventEmitterService.subsVar = this.eventEmitterService.
+        callBindFunction.subscribe((id: number) => {
+          this.getGuideline(id);
+        });
+    }
 
     this.guidelineService.getGuidelineTypes()
       .subscribe(
         guidelinetypes => {
           this.guidelinetypes = guidelinetypes;
         });
-
-    $(document).ready(function () {
-      $('#guidelineDataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('info')) {
-          $(this).removeClass('info');
-        } else {
-          $('#guidelineDataTable').DataTable().$('tr.info').removeClass('info');
-          $(this).addClass('info');
-        }
-        const data = $('#guidelineDataTable').DataTable().row(this).data();
-        if (typeof data !== 'undefined') {
-          thisClass.getGuideline(data.id);
-        }
-      });
-    });
   }
+
   addGuideline(): void {
     if (this.guideline.id > 0) {
       this.updateGuideline();
@@ -100,7 +69,6 @@ export class GuidelinesComponent implements OnInit {
       this.guidelineService.addGuideline(this.guideline).subscribe(
         guideline => {
           if (guideline.id > 0) {
-            this.dataTable.DataTable().ajax.reload();
             this.messageHidden = false;
             this.message = 'Added new Guideline';
           } else {
@@ -121,7 +89,6 @@ export class GuidelinesComponent implements OnInit {
 
     this.guidelineService.updateGuideline(this.guideline).subscribe(
       guideline => {
-        this.dataTable.DataTable().ajax.reload();
         this.messageHidden = false;
         this.message = 'Updated the Guideline';
       });
@@ -151,7 +118,6 @@ export class GuidelinesComponent implements OnInit {
     this.guidelineService.deleteGuideline(this.guideline.id)
       .subscribe(
         result => {
-          this.dataTable.DataTable().ajax.reload();
           this.messageHidden = false;
           this.message = 'Deleted the Guideline';
         });
