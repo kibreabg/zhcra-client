@@ -24,7 +24,6 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
   declarations: [
@@ -57,8 +56,7 @@ import { EventEmitterService } from './services/event-emitter.service';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
-    },
-    EventEmitterService],
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

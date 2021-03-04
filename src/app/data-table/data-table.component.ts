@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Guideline } from '../models/guideline';
-import { EventEmitterService } from '../services/event-emitter.service';
-import { GuidelineService } from '../services/guideline.service';
 import { DataTableDataSource } from './data-table-datasource';
 
 @Component({
@@ -15,15 +14,14 @@ import { DataTableDataSource } from './data-table-datasource';
 export class DataTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<Guideline>;
+  @ViewChild(MatTable) table: MatTable<any>;
   dataSource: DataTableDataSource;
+  @Output() rowId = new EventEmitter<number>();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'title', 'Action'];
 
   constructor(
-    private guidelineService: GuidelineService,
-    private eventEmitterService: EventEmitterService
   ) {
 
   }
@@ -33,17 +31,16 @@ export class DataTableComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    this.guidelineService.getGuidelines()
-      .subscribe(
-        guidelines => {
-          this.dataSource = new DataTableDataSource(guidelines);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-          this.table.dataSource = this.dataSource;
-        });
   }
 
-  onRowSelect(obj) {
-    this.eventEmitterService.onSelectGridRecord(obj.id);
+  onRowSelect(row) {
+    this.rowId.emit(row.id);
+  }
+
+  onReloadGrid(datasource){
+    this.dataSource = new DataTableDataSource(datasource);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.table.dataSource = this.dataSource;
   }
 }

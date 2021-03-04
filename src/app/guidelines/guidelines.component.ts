@@ -7,7 +7,7 @@ import { GuidelineService } from '../services/guideline.service';
 import { GuidelineTypeService } from '../services/guideline-type.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GuidelineType } from '../models/guidelinetype';
-import { EventEmitterService } from '../services/event-emitter.service';
+import { DataTableComponent } from '../data-table/data-table.component';
 
 @Component({
   selector: 'app-guidelines',
@@ -23,6 +23,8 @@ export class GuidelinesComponent implements OnInit {
     order: new FormControl('', Validators.required),
   });
 
+  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+
   guideline = new Guideline();
   guidelines: Guideline[];
   guidelinetypes: GuidelineType[];
@@ -36,24 +38,21 @@ export class GuidelinesComponent implements OnInit {
   constructor(
     private guidelineService: GuidelineService,
     private router: Router,
-    private loginService: LoginService,
-    private eventEmitterService: EventEmitterService) { }
+    private loginService: LoginService) { }
 
   ngOnInit() {
     this.messageHidden = true;
     this.token = 'Bearer ' + this.loginService.getToken();
-    if (this.eventEmitterService.subsVar == undefined) {
-      this.eventEmitterService.subsVar = this.eventEmitterService.
-        callBindFunction.subscribe((id: number) => {
-          this.getGuideline(id);
-        });
-    }
-
     this.guidelineService.getGuidelineTypes()
       .subscribe(
         guidelinetypes => {
           this.guidelinetypes = guidelinetypes;
         });
+    this.getGuidelines();
+  }
+
+  onRowSelected(row: number) {
+    this.getGuideline(row);
   }
 
   addGuideline(): void {
@@ -71,6 +70,7 @@ export class GuidelinesComponent implements OnInit {
           if (guideline.id > 0) {
             this.messageHidden = false;
             this.message = 'Added new Guideline';
+            this.getGuidelines();
           } else {
             this.messageHidden = false;
             this.message = 'An Error Occured';
@@ -112,6 +112,7 @@ export class GuidelinesComponent implements OnInit {
       .subscribe(
         guidelines => {
           this.guidelines = guidelines;
+          this.dataTableComponent.onReloadGrid(guidelines);
         });
   }
   deleteGuideline() {
