@@ -40,10 +40,7 @@ export class GuidelineService {
   }
 
   uploadContent(formData: FormData): Observable<any> {
-    return this.http.post<FormData>(this.uploadUrl, formData, {
-      reportProgress: true,
-      observe: 'events'
-    });
+    return this.http.post<FormData>(this.uploadUrl, formData, {});
   }
 
   getGuidelineType(id: number): Observable<GuidelineType> {

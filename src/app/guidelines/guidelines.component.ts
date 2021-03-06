@@ -64,6 +64,7 @@ export class GuidelinesComponent implements OnInit {
       this.guideline.content = this.form.get('content').value;
       this.guideline.order = this.form.get('order').value;
       this.guideline.createdAt = new Date();
+      this.uploadContent();
 
       this.guidelineService.addGuideline(this.guideline).subscribe(
         guideline => {
@@ -78,6 +79,7 @@ export class GuidelinesComponent implements OnInit {
         }
       );
 
+
     }
   }
   updateGuideline() {
@@ -91,6 +93,7 @@ export class GuidelinesComponent implements OnInit {
       guideline => {
         this.messageHidden = false;
         this.message = 'Updated the Guideline';
+        this.getGuidelines();
       });
   }
   getGuideline(id: number) {
@@ -121,10 +124,11 @@ export class GuidelinesComponent implements OnInit {
         result => {
           this.messageHidden = false;
           this.message = 'Deleted the Guideline';
+          this.getGuidelines();
         });
   }
   onTypeSelected(event) {
-    const guidelineTypeId = event.target.selectedOptions[0].value;
+    const guidelineTypeId = event.value;
     const guidelineType = this.guidelineService.getGuidelineType(guidelineTypeId);
     guidelineType.subscribe(gType => {
       this.uploadFolder = gType.folder;
@@ -135,14 +139,11 @@ export class GuidelinesComponent implements OnInit {
     this.form.patchValue({ content: this.selectedFile.name });
   }
   uploadContent() {
-    const fd = new FormData();
+    const fd = new FormData(document.forms["guidelineForm"]);
     fd.append('file', this.selectedFile, this.selectedFile.name);
-    fd.append('type', this.uploadFolder);
+    fd.append('gtype', this.uploadFolder);
     this.guidelineService.uploadContent(fd).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-      } else if (event.type === HttpEventType.Response) {
-        console.log(event);
-      }
+      console.log(event);
     });
   }
 

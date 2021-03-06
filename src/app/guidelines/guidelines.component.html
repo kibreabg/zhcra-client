@@ -8,7 +8,7 @@
         Enter Guideline Information
       </div>
       <div class="card-body">
-        <form class="form-validate form-horizontal" (ngSubmit)="addGuideline()" [formGroup]="form">
+        <form class="form-validate form-horizontal" id="guidelineForm" enctype="multipart/form-data" (ngSubmit)="addGuideline()" [formGroup]="form">
           <div class="form-group">
             <label class="col-form-label">Title</label>
             <mat-form-field class="full-width" appearance="outline">
@@ -23,7 +23,7 @@
             <label class="col-form-label">Guideline Type</label>
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Choose one</mat-label>
-              <mat-select formControlName="type" (change)="onTypeSelected($event)">
+              <mat-select formControlName="type" (selectionChange)="onTypeSelected($event)">
                 <mat-option>Select Type</mat-option>
                 <mat-option *ngFor="let guidelinetype of guidelinetypes" value="{{ guidelinetype.id }}">
                   {{ guidelinetype.name }}</mat-option>
@@ -43,7 +43,7 @@
                 </button>
               </mat-toolbar>
               <!-- Fetch selected filed on change -->
-              <input type="file" #fileInput id="uploadFile" (change)="onSelected($event)" />
+              <input type="file" #fileInput name="file" id="uploadFile" (change)="onSelected($event)" />
               <mat-error *ngIf="form.get('content').hasError('required')">
                 Content is <strong>required!</strong>
               </mat-error>
