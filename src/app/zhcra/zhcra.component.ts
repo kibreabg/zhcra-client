@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../feature/auth/services/login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,7 +24,7 @@ export class ZhcraComponent implements OnInit {
   logout() {
     return this.loginService.logout().subscribe(message => {
       localStorage.removeItem('token');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth']);
     });
   }
 
