@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     return this.loginService.login(this.user).subscribe(
       response => {
         localStorage.setItem('token', response.accessToken);
-        this.router.navigate(['/zhcra/guidelines']);
+        this.router.navigate(['/guidelines']);
       },
       error => {
         console.log('HTTP Error: ', error);

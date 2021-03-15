@@ -4,22 +4,28 @@ import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dial
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableComponent } from './data-table/data-table.component';
 import { MaterialModule } from './material/material.module';
+import { LayoutComponent } from './layout/layout.component';
+import { SharedRoutingModule } from './shared-routing.module';
 
 
 
 @NgModule({
-  declarations: [MatConfirmDialogComponent, DataTableComponent],
+  declarations: [MatConfirmDialogComponent, DataTableComponent, LayoutComponent],
   imports: [
     CommonModule,
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedRoutingModule,
   ],
   exports: [
     CommonModule,
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
+    MatConfirmDialogComponent,
+    DataTableComponent,
+    LayoutComponent
   ]
 })
 export class SharedModule { }

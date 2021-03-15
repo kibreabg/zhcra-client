@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../feature/auth/services/login.service';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/feature/auth/services/login.service';
 
 @Component({
-  selector: 'app-zhcra',
-  templateUrl: './zhcra.component.html',
-  styleUrls: ['./zhcra.component.css']
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.css']
 })
-export class ZhcraComponent implements OnInit {
+export class LayoutComponent implements OnInit {
 
-  titleHead = 'ZHCRA';
+  titleHead = 'ZCRA';
   titleTail = 'Portal';
   username = '';
 
   constructor(private loginService: LoginService, private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loginService.getUser().subscribe(user => {
       this.username = user.username;
     });
