@@ -10,9 +10,8 @@ export class ConfirmDialogService {
   constructor(private dialog: MatDialog) { }
 
   openConfirmDialog() {
-    this.dialog.open(MatConfirmDialogComponent, {
-      width: '300px',
-
+    return this.dialog.open(MatConfirmDialogComponent, {
+      panelClass: 'zcra-no-padding-dialog'
     });
   }
 }

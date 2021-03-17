@@ -64,7 +64,7 @@
               <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
                 Save
               </button>
-              <button mat-raised-button color="warn" (click)="deleteGuideline()">
+              <button mat-raised-button color="warn" [disabled]="!form.valid" (click)="deleteGuideline()">
                 Delete
               </button>
             </div>

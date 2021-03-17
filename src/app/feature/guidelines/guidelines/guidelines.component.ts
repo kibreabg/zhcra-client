@@ -117,14 +117,20 @@ export class GuidelinesComponent implements OnInit {
         });
   }
   deleteGuideline() {
-    this.confirmDialogService.openConfirmDialog();
-    this.guidelineService.deleteGuideline(this.guideline.id)
-      .subscribe(
-        result => {
-          this.messageHidden = false;
-          this.message = 'Deleted the Guideline';
-          this.getGuidelines();
-        });
+    this.confirmDialogService.openConfirmDialog()
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.guidelineService.deleteGuideline(this.guideline.id)
+            .subscribe(
+              result => {
+                this.messageHidden = false;
+                this.message = 'Deleted the Guideline';
+                this.getGuidelines();
+              });
+        }
+      });
+
+
   }
   onTypeSelected(event) {
     const guidelineTypeId = event.value;
