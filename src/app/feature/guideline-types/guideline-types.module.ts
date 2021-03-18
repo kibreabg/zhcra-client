@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GuidelineTypesRoutingModule } from './guideline-types-routing.module';
 import { GuidelineTypeComponent } from './guideline-type/guideline-type.component';
+import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { GuidelineTypeComponent } from './guideline-type/guideline-type.componen
   ],
   imports: [
     CommonModule,
+    SharedModule,
     GuidelineTypesRoutingModule
   ]
 })

@@ -18,10 +18,9 @@ export class DataTableComponent implements AfterViewInit, OnInit {
   @Output() rowId = new EventEmitter<number>();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'title', 'Action'];
+  displayedColumns = [];
 
-  constructor(
-  ) {
+  constructor() {
 
   }
 
@@ -36,10 +35,21 @@ export class DataTableComponent implements AfterViewInit, OnInit {
     this.rowId.emit(row.id);
   }
 
-  onReloadGrid(datasource){
+  onReloadGrid(datasource) {
     this.dataSource = new DataTableDataSource(datasource);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+
+    //Push the new datasource in the displayedColumns array, if they aren't found already
+    for (let column in datasource[0]) {
+      if (this.displayedColumns.indexOf(column) == -1)
+        this.displayedColumns.push(column);
+    }
+    if (this.displayedColumns.indexOf("Action") == -1)
+      this.displayedColumns.push("Action");
+    const indexOfId = this.displayedColumns.indexOf("id");
+    this.displayedColumns.splice(indexOfId, 1);
+
   }
 }

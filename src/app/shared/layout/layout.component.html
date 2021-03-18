@@ -10,30 +10,30 @@
     </div>
     <ul class="c-sidebar-nav">
       <li class="c-sidebar-nav-title">Resources</li>
-      <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle"
-          href="">
-          <img src="assets/icons/cil-clipboard.svg" class="c-sidebar-nav-icon" /> Guidelines</a>
+      <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+        <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle">
+          <img src="assets/icons/cil-clipboard.svg" class="c-sidebar-nav-icon" [routerLink]="['.']"/> Guidelines</a>
         <ul class="c-sidebar-nav-dropdown-items">
           <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" [routerLink]="['/zhcra/guidelinetypes']"
+            <a class="c-sidebar-nav-link" [routerLink]="['/guidelinetypes']"
               routerLinkActive="router-link-active">
               <span class="c-sidebar-nav-icon"></span> Guideline Types</a>
           </li>
           <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" [routerLink]="['/zhcra/guidelines']" routerLinkActive="router-link-active">
+            <a class="c-sidebar-nav-link" [routerLink]="['/guidelines']" routerLinkActive="router-link-active">
               <span class="c-sidebar-nav-icon"></span> Guidelines</a>
           </li>
         </ul>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" [routerLink]="['/zhcra/quickaccesstools']" routerLinkActive="router-link-active">
+        <a class="c-sidebar-nav-link" [routerLink]="['/quickaccesstools']" routerLinkActive="router-link-active">
           <img src="assets/icons/cil-bookmark.svg" class="c-sidebar-nav-icon" /> Quick Access Tools</a>
       </li>
-      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/zhcra/memos']"
+      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/memos']"
           routerLinkActive="router-link-active">
           <img src="assets/icons/cil-notes.svg" class="c-sidebar-nav-icon" /> Memos</a>
       </li>
-      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/zhcra/prescriptiontool']"
+      <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" [routerLink]="['/prescriptiontool']"
           routerLinkActive="router-link-active">
           <img src="assets/icons/cil-medical-cross.svg" class="c-sidebar-nav-icon" /> Prescription Tool</a>
       </li>

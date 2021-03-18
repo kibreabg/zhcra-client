@@ -86,6 +86,7 @@ export class GuidelinesComponent implements OnInit {
     this.guideline.content = this.form.get('content').value;
     this.guideline.order = this.form.get('order').value;
     this.guideline.updatedAt = new Date();
+    this.uploadContent();
 
     this.guidelineService.updateGuideline(this.guideline).subscribe(
       guideline => {
@@ -129,8 +130,6 @@ export class GuidelinesComponent implements OnInit {
               });
         }
       });
-
-
   }
   onTypeSelected(event) {
     const guidelineTypeId = event.value;

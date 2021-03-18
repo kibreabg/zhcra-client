@@ -1,11 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginService } from '../../auth/services/login.service';
 import { GuidelineType } from '@core/models/guidelinetype';
 import { GuidelineTypeService } from '@core/services/guideline-type.service';
-
-declare var $;
+import { DataTableComponent } from '@shared/data-table/data-table.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-guideline-type',
@@ -23,67 +22,63 @@ export class GuidelineTypeComponent implements OnInit {
   message = '';
   thisClass: any;
   messageHidden: boolean;
+  form = new FormGroup({
+    name: new FormControl('', Validators.required),
+    folder: new FormControl('', Validators.required),
+    icon: new FormControl('', Validators.required)
+  });
 
-  constructor(private guidelineTypeService: GuidelineTypeService, private router: Router, private loginService: LoginService) { }
+  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+
+  constructor(
+    private guidelineTypeService: GuidelineTypeService,
+    private loginService: LoginService,
+    private confirmDialogService: ConfirmDialogService) { }
 
   ngOnInit() {
     this.messageHidden = true;
-    const thisClass = this;
     this.token = 'Bearer ' + this.loginService.getToken();
-    this.dataTable = $('#guideTypeDataTable');
-    this.dataTable.DataTable({
-      ajax: {
-        headers: {
-          'Authorization': this.token
-        },
-        method: 'GET',
-        url: 'http://localhost:5000/api/guidelinetypes',
-        dataSrc: ''
-      },
-      columns: [
-        { data: 'id' },
-        { data: 'name' },
-        { data: 'folder' }
-      ],
-      columnDefs: [
-        {
-            targets: [ 0 ],
-            visible: false
-        }
-    ]
-    });
+    this.getGuidelineTypes();
+  }
 
-    $(document).ready(function() {
-      $('#guideTypeDataTable tbody').on('click', 'tr', function () {
-        if ( $(this).hasClass('info') ) {
-          $(this).removeClass('info');
-        } else {
-          $('#guideTypeDataTable').DataTable().$('tr.info').removeClass('info');
-            $(this).addClass('info');
-        }
-        const data = $('#guideTypeDataTable').DataTable().row(this).data();
-        if (typeof data !== 'undefined') {
-          thisClass.getGuidelineType(data.id);
-        }
-      });
-    });
+  onRowSelected(row: number) {
+    this.getGuidelineType(row);
   }
 
   addGuidelineType(): void {
     if (this.guidelineType.id > 0) {
       this.updateGuidelineType();
     } else {
-      this.guidelineTypeService.addGuidelineType(this.guidelineType).subscribe(result => {
-        this.dataTable.DataTable().ajax.reload();
-        this.messageHidden = false;
-        this.message = 'Added new Guideline Type';
-      });
+      this.guidelineType.name = this.form.get('name').value;
+      this.guidelineType.folder = this.form.get('folder').value;
+      this.guidelineType.icon = this.form.get('icon').value;
+      this.guidelineType.createdAt = new Date();
+      this.uploadIcon();
+
+      this.guidelineTypeService.addGuidelineType(this.guidelineType).subscribe(
+        guidelineType => {
+          if (guidelineType.id > 0) {
+            this.messageHidden = false;
+            this.message = 'Added new Guideline Type';
+            this.getGuidelineTypes();
+          } else {
+            this.messageHidden = false;
+            this.message = 'An Error Occured';
+          }
+        }
+      );
     }
   }
 
   updateGuidelineType() {
+    this.guidelineType.name = this.form.get('name').value;
+    this.guidelineType.folder = this.form.get('folder').value;
+    this.guidelineType.icon = this.form.get('icon').value;
+    this.guidelineType.updatedAt = new Date();
+    this.uploadIcon();
+
     this.guidelineTypeService.updateGuidelineType(this.guidelineType).subscribe(result => {
-      this.dataTable.DataTable().ajax.reload();
+      this.getGuidelineTypes();
       this.messageHidden = false;
       this.message = 'Updated the Guideline Type';
     });
@@ -92,52 +87,50 @@ export class GuidelineTypeComponent implements OnInit {
   getGuidelineType(id: number) {
     return this.guidelineTypeService.getGuidelineType(id)
       .subscribe(
-        guidelineType => { this.guidelineType = guidelineType; },
-        err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 403) {
-              this.router.navigate(['/auth']);
-            }
-          }
-      });
+        guidelineType => {
+          this.form.patchValue({
+            name: guidelineType.name,
+            icon: guidelineType.icon,
+            folder: guidelineType.folder
+          });
+          this.guidelineType = guidelineType;
+        });
   }
 
   getGuidelineTypes() {
     return this.guidelineTypeService.getGuidelineTypes()
       .subscribe(
-        guidelineTypes => { this.guidelineTypes = guidelineTypes; },
-        err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 403) {
-              this.router.navigate(['/auth']);
-            }
-          }
-      });
+        guidelineTypes => {
+          this.guidelineTypes = guidelineTypes;
+          this.dataTableComponent.onReloadGrid(guidelineTypes);
+        });
   }
 
   deleteGuidelineType() {
-    this.guidelineTypeService.deleteGuidelineType(this.guidelineType.id).subscribe(result => {
-      this.dataTable.DataTable().ajax.reload();
-      this.messageHidden = false;
-      this.message = 'Deleted the Guideline Type';
-    });
+    this.confirmDialogService.openConfirmDialog()
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.guidelineTypeService.deleteGuidelineType(this.guidelineType.id)
+            .subscribe(
+              result => {
+                this.messageHidden = false;
+                this.message = 'Deleted the Guideline Type';
+                this.getGuidelineTypes();
+              });
+        }
+      });
   }
 
   onSelected(event) {
     this.selectedFile = event.target.files[0];
-    this.guidelineType.icon = this.selectedFile.name;
+    this.form.patchValue({ icon: this.selectedFile.name });
   }
 
   uploadIcon() {
-    const fd = new FormData();
+    const fd = new FormData(document.forms["guidelinetypeform"]);
     fd.append('file', this.selectedFile, this.selectedFile.name);
     this.guidelineTypeService.uploadIcon(fd).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        console.log('Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%');
-        this.uploadProgressPerc = 'Upload Progress ' + Math.round(event.loaded / event.total) * 100 + '%';
-      } else if (event.type === HttpEventType.Response) {
-        console.log(event);
-      }
+      console.log(event);
     });
   }
 

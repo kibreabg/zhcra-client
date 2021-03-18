@@ -1,9 +1,38 @@
 .breadcrumb {
-    padding: 8px 15px;
-    margin-bottom: 20px;
-    list-style: none;
-    background-color: #ffffff;
-    border: 0px solid transparent;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: #ffffff;
+  border: 0px solid transparent;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-width-upload {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+}
+
+.mat-toolbar-single-row button {
+  width: 200px;
+}
+
+#uploadFile {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
 }
