@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Guideline } from '../models/guideline';
 import { GuidelineType } from '../models/guidelinetype';
+import { baseUrl } from '@core/config';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,9 +14,9 @@ const httpOptions = {
 })
 export class GuidelineService {
 
-  private guidelineUrl = 'http://localhost:5000/api/guidelines';  // URL to web api
-  private guidelineTypeUrl = 'http://localhost:5000/api/guidelinetypes';  // URL to web api
-  private uploadUrl = 'http://localhost:5000/api/guidelines/upload';  // URL to web api
+  private guidelineUrl = baseUrl + '/api/guidelines';
+  private guidelineTypeUrl = baseUrl + '/api/guidelinetypes';
+  private uploadUrl = baseUrl + '/api/guidelines/upload';
 
   constructor(private http: HttpClient) { }
 

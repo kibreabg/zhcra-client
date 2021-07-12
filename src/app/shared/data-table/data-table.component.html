@@ -1,18 +1,18 @@
 <div class="mat-elevation-z8">
-  <table mat-table class="full-width-table" matSort aria-label="Elements">
+  <mat-table class="full-width-table" matSort aria-label="Elements">
     <ng-container *ngFor="let disCol of displayedColumns;" matColumnDef="{{disCol}}">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol}}</th>
-      <td mat-cell *matCellDef="let row">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{disCol}}</mat-header-cell>
+      <mat-cell *matCellDef="let row">
         <div *ngIf="disCol == 'Action'; else elseBlock">
           <a (click)="onRowSelect(row)" routerLink=".">Select</a>
         </div>
         <ng-template #elseBlock>{{row[disCol]}}</ng-template>
-      </td>
+      </mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 
   <mat-paginator #paginator [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="10"
     [pageSizeOptions]="[10, 20, 30, 40]">

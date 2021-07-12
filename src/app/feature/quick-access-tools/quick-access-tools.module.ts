@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { QuickAccessToolsRoutingModule } from './quick-access-tools-routing.module';
 import { QuickAccessToolsComponent } from './quick-access-tools/quick-access-tools.component';
+import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { QuickAccessToolsComponent } from './quick-access-tools/quick-access-too
   ],
   imports: [
     CommonModule,
+    SharedModule,
     QuickAccessToolsRoutingModule
   ]
 })

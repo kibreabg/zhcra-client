@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../auth/services/login.service';
 import { HttpEventType } from '@angular/common/http';
 import { MemoService } from '@core/services/memo.service';
-
-declare var $;
+import { DataTableComponent } from '@shared/data-table/data-table.component';
+import { FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-memo',
@@ -14,10 +16,16 @@ declare var $;
 })
 export class MemoComponent implements OnInit {
 
+  form = new FormGroup({
+    title: new FormControl('', Validators.required),
+    url: new FormControl('', Validators.required),
+    latest: new FormControl('', Validators.required),
+  });
+
+  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+
   memo = new Memo();
   memos: Memo[];
-
-  @ViewChild('memoDataTable', { static: false }) memoDT: ElementRef;
   dataTable: any;
   selectedFile: File = null;
   message = '';
@@ -29,49 +37,9 @@ export class MemoComponent implements OnInit {
   constructor(private memoService: MemoService, private router: Router, private loginService: LoginService) { }
 
   ngOnInit() {
-    this.memo.latest = false;
     this.messageHidden = true;
-    const thisClass = this;
     this.token = 'Bearer ' + this.loginService.getToken();
-    this.dataTable = $('#memoDataTable');
-    this.dataTable.DataTable({
-      ajax: {
-        headers: {
-          'Authorization': this.token
-        },
-        method: 'GET',
-        url: 'http://localhost:5000/api/memos',
-        dataSrc: ''
-      },
-      responsive: true,
-      columns: [
-        { data: 'id' },
-        { data: 'title' },
-        { data: 'url' },
-        { data: 'latest' }
-      ],
-      columnDefs: [
-        {
-          targets: [0],
-          visible: false
-        }
-      ]
-    });
-
-    $(document).ready(function () {
-      $('#memoDataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('info')) {
-          $(this).removeClass('info');
-        } else {
-          $('#memoDataTable').DataTable().$('tr.info').removeClass('info');
-          $(this).addClass('info');
-        }
-        const data = $('#memoDataTable').DataTable().row(this).data();
-        if (typeof data !== 'undefined') {
-          thisClass.getMemo(data.id);
-        }
-      });
-    });
+    this.getMemos();
   }
 
   addMemo(): void {

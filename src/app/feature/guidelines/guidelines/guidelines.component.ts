@@ -115,6 +115,7 @@ export class GuidelinesComponent implements OnInit {
         guidelines => {
           this.guidelines = guidelines;
           this.dataTableComponent.onReloadGrid(guidelines);
+          this.form.reset({ title: '', type: '', content: '', order: '' });
         });
   }
   deleteGuideline() {

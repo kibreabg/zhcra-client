@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GuidelineType } from '../models/guidelinetype';
+import { baseUrl } from '@core/config';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,8 +13,8 @@ const httpOptions = {
 })
 export class GuidelineTypeService {
 
-  private guidelineTypeUrl = 'http://localhost:5000/api/guidelinetypes';  // URL to web api
-  private uploadUrl = 'http://localhost:5000/api/guidelinetypes/upload';  // URL to web api
+  private guidelineTypeUrl = baseUrl + '/api/guidelinetypes';
+  private uploadUrl = baseUrl + '/api/guidelinetypes/upload';
 
   constructor(private http: HttpClient) { }
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../../core/models/user';
 import { tap } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
+import { baseUrl } from '@core/config';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,7 +14,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class LoginService {
-  private loginUrl = 'http://localhost:5000/api/Users';
+  private loginUrl = baseUrl + '/api/Users';
 
   constructor(private http: HttpClient) { }
 
@@ -36,7 +37,7 @@ export class LoginService {
       try {
         const decodedToken = jwt_decode(token);
         if (decodedToken) {
-          return decodedToken.iss === 'http://localhost:5000/api/Users/Login'
+          return decodedToken.iss === baseUrl + '/api/Users/Login'
             ? true
             : false;
         }

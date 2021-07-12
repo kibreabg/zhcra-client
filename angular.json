@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "./../ZHCRA-portal-client/dist/",
+            "outputPath": "C:/inetpub/wwwroot/zcrafrontend/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

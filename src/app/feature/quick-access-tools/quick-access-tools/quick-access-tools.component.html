@@ -1,106 +1,84 @@
-<section class="wrapper">
-    <!--overview start-->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-laptop"></i> Quick Access Tools</h3>
-            <ol class="breadcrumb">
-                <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-                <li><i class="fa fa-laptop"></i>Quick Access Tools</li>
-            </ol>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="alert alert-success" [hidden]="messageHidden" role="alert">
+            <strong>Success!</strong> {{ message }}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="alert alert-success alert-dismissible fade in" [hidden]="messageHidden" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                        </button>
-                <strong>Success!</strong> {{ message }}
+        <div class="card">
+            <div class="card-header">
+                Enter Quick Access Tool Information
             </div>
-            <section class="panel">
-                <header class="panel-heading">
-                    Enter Quick Access Tools Data
-                </header>
-                <div class="panel-body">
-                    <div class="form">
-                        <form class="form-validate form-horizontal" id="feedback_form" enctype="multipart/form-data" novalidate="novalidate" (ngSubmit)="addQuickAccessTool()" #addQuickAccessToolForm="ngForm">
-                            <div class="form-group ">
-                                <label for="title" class="control-label col-lg-2">Title <span class="required">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="title" name="title" type="text" required [(ngModel)]="quickaccesstool.title" #title="ngModel">
-                                    <div [hidden]="title.valid || title.pristine">
-                                        <label for="title" class="error">Title is required.</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="content" class="control-label col-lg-2">Content <span class="required">*</span></label>
-                                <div class="row">
-                                    <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
-                                        <input class="form-control" id="content" name="content" (change)="onContentSelected($event)" type="file" required [(ngModel)]="quickaccesstool.content" #content="ngModel">
-
-                                        <span class="badge bg-primary">{{uploadProgressPerc}}</span>
-                                        <div [hidden]="content.valid || content.pristine">
-                                            <label for="content" class="error">Content is required.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <button type="button" class="btn btn-default" (click)="uploadContent()">Upload</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="icon" class="control-label col-lg-2">Icon <span class="required">*</span></label>
-                                <div class="row">
-                                    <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
-                                        <input class="form-control" id="icon" name="icon" (change)="onIconSelected($event)" type="file" required [(ngModel)]="quickaccesstool.icon" #icon="ngModel">
-
-                                        <span class="badge bg-primary">{{uploadIconProgressPerc}}</span>
-                                        <div [hidden]="icon.valid || icon.pristine">
-                                            <label for="icon" class="error">Icon is required.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <button type="button" class="btn btn-default" (click)="uploadIcon()">Upload</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-10">
-                                    <button class="btn btn-primary" type="submit" [disabled]="!addQuickAccessToolForm.form.valid">Save</button>
-                                    <button class="btn btn-danger" (click)="deleteQuickAccessTool()" type="button">Delete</button>
-                                </div>
-                            </div>
-                        </form>
+            <div class="card-body">
+                <form class="form-validate form-horizontal" id="quickAccessForm" enctype="multipart/form-data"
+                    novalidate="novalidate" [formGroup]="form" (ngSubmit)="addQuickAccessTool()">
+                    <div class="form-group ">
+                        <label class="col-form-label">Title</label>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Title</mat-label>
+                            <input matInput formControlName="title" />
+                            <mat-error *ngIf="form.get('title').hasError('required')">
+                                Title is <strong>required!</strong>
+                            </mat-error>
+                        </mat-form-field>
                     </div>
-
-                </div>
-            </section>
+                    <div class="form-group">
+                        <label class="col-form-label">Upload the Quick Access Tool</label>
+                        <mat-form-field class="full-width-upload" appearance="outline">
+                            <mat-toolbar>
+                                <!-- Display files names -->
+                                <input matInput formControlName="content" readonly />
+                                <!-- Browse Button -->
+                                <button mat-flat-button color="primary">
+                                    Browse File
+                                </button>
+                            </mat-toolbar>
+                            <!-- Fetch selected filed on change -->
+                            <input type="file" #fileInput name="file" id="uploadFile"
+                                (change)="onContentSelected($event)" />
+                            <mat-error *ngIf="form.get('content').hasError('required')">
+                                Content is <strong>required!</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Upload the Icon</label>
+                        <mat-form-field class="full-width-upload" appearance="outline">
+                            <mat-toolbar>
+                                <!-- Display files names -->
+                                <input matInput formControlName="icon" readonly />
+                                <!-- Browse Button -->
+                                <button mat-flat-button color="primary">
+                                    Browse File
+                                </button>
+                            </mat-toolbar>
+                            <!-- Fetch selected filed on change -->
+                            <input type="file" #fileInput name="file" id="uploadFile"
+                                (change)="onIconSelected($event)" />
+                            <mat-error *ngIf="form.get('icon').hasError('required')">
+                                Icon is <strong>required!</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-actions">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+                                Save
+                            </button>
+                            <button mat-raised-button color="warn" [disabled]="!form.valid"
+                                (click)="deleteQuickAccessTool()">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Quick Access List
+            </div>
+            <div class="card-body">
+                <app-data-table (rowId)="onRowSelected($event)"></app-data-table>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <section class="panel">
-                <header class="panel-heading">
-                    Quick Access Tools List
-                </header>
-                <table id="qatDataTable" class="table table-bordered table-hover dt-responsive nowrap" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                        </tr>
-                    </tfoot>
-                </table>
-
-            </section>
-        </div>
-    </div>
-</section>
+</div>

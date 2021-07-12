@@ -3,6 +3,7 @@ import { LoginService } from '../services/login.service';
 import { User } from '../../../core/models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,10 @@ export class LoginComponent implements OnInit {
 
   user = new User();
 
-  constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private loginService: LoginService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -34,6 +38,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/guidelines']);
       },
       error => {
+        this._snackBar.open('Username or Password Incorrect', 'Close', {
+          duration: 5000
+        });
         console.log('HTTP Error: ', error);
       });
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Memo } from '../models/memo';
+import { baseUrl } from '@core/config';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,8 +13,8 @@ const httpOptions = {
 })
 export class MemoService {
 
-  private memoUrl = 'http://localhost:5000/api/memos';  // URL to web api
-  private uploadUrl = 'http://localhost:5000/api/memos/upload';  // URL to web api
+  private memoUrl = baseUrl + '/api/memos';
+  private uploadUrl = baseUrl + '/api/memos/upload';
 
   constructor(private http: HttpClient) { }
 

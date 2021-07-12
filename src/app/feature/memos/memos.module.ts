@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MemosRoutingModule } from './memos-routing.module';
 import { MemoComponent } from './memo/memo.component';
+import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import { MemoComponent } from './memo/memo.component';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     MemosRoutingModule
   ]
 })
