@@ -8,44 +8,54 @@
                 Enter Prescription Information
             </div>
             <div class="card-body">
-                <form class="form-validate form-horizontal" id="feedback_form" enctype="multipart/form-data"
-                    novalidate="novalidate" (ngSubmit)="addPrescriptionTool()">
+                <form class="form-validate form-horizontal" id="prescriptionForm" enctype="multipart/form-data"
+                    [formGroup]="form" (ngSubmit)="addPrescriptionTool()">
                     <div class="form-group ">
                         <label class="col-form-label">Description</label>
                         <mat-form-field class="full-width" appearance="outline">
                             <mat-label>Description</mat-label>
-                            <input matInput formControlName="title" />
+                            <input matInput formControlName="description" />
                             <mat-error *ngIf="form.get('description').hasError('required')">
                                 Description is <strong>required!</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="form-group ">
-                        <label for="parent" class="control-label col-lg-2">Parent <span
-                                class="required">*</span></label>
-                        <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
-                            <select class="form-control m-bot15" name="parent" id="parent">
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button type="button" id="getChildren" class="btn btn-default" (click)="getChildren()">Get
-                                Children</button>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Parent</label>
+                        <mat-form-field class="col-lg-10" appearance="outline">
+                            <mat-label>Choose one</mat-label>
+                            <mat-select formControlName="parentid">
+                                <mat-option>Select Parent</mat-option>
+                                <mat-option *ngFor="let prescriptiontool of prescriptionTools"
+                                    value="{{ prescriptiontool.id }}">
+                                    {{ prescriptiontool.content }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.get('parentid').hasError('required')">Please select Parent
+                                Prescription Tool</mat-error>
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" type="button" (click)="getChildren()">
+                            Get Children
+                        </button>
                     </div>
                     <div class="form-group">
-                        <label for="content" class="control-label col-lg-2">Content <span
-                                class="required">*</span></label>
-                        <div class="row">
-                            <div class="col-lg-7" style="display: inline-block; margin-bottom: 0;">
-                                <input class="form-control" id="content" name="content" type="text" required>
-                            </div>
-                        </div>
+                        <label class="col-form-label">Content</label>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Content</mat-label>
+                            <input matInput formControlName="content" />
+                            <mat-error *ngIf="form.get('content').hasError('required')">
+                                Content is <strong>required!</strong>
+                            </mat-error>
+                        </mat-form-field>
                     </div>
-                    <div class="form-group">
+                    <div class="form-actions">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <button class="btn btn-primary" type="submit">Save</button>
-                            <button class="btn btn-danger" (click)="deletePrescriptionTool()"
-                                type="button">Delete</button>
+                            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+                                Save
+                            </button>
+                            <button mat-raised-button color="warn" [disabled]="!form.valid"
+                                (click)="deletePrescriptionTool()">
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </form>

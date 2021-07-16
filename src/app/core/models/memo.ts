@@ -3,4 +3,6 @@ export class Memo {
     title: string;
     url: string;
     latest?: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }
