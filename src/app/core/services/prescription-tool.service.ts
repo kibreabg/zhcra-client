@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PrescriptionTool } from '../models/prescriptiontool';
 import { Observable } from 'rxjs';
-import { baseUrl } from '@core/config';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,8 +13,7 @@ const httpOptions = {
 })
 export class PrescriptionToolService {
 
-  private prescriptionToolUrl = baseUrl + '/api/prescriptiontools';
-  private uploadUrl = baseUrl + '/api/prescriptiontools/upload';
+  private prescriptionToolUrl = environment.baseUrl + '/api/prescriptiontools';
 
   constructor(private http: HttpClient) { }
 

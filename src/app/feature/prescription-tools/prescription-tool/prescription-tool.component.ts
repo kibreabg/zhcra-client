@@ -6,9 +6,9 @@ import { LoginService } from '../../auth/services/login.service';
 import { FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
-import { DataTableComponent } from '@shared/data-table/data-table.component';
 import { ViewChild } from '@angular/core';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-prescription-tool',
@@ -23,13 +23,34 @@ export class PrescriptionToolComponent implements OnInit {
     parentid: new FormControl('', Validators.required),
   });
 
-  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+  @ViewChild('myGrid') myGrid: AgGridAngular;
 
   prescriptionTool = new PrescriptionTool();
   prescriptionTools: PrescriptionTool[];
   message = '';
   messageHidden: boolean;
   token = '';
+  private columnDefs = [
+    { field: '', width: 20, checkboxSelection: true },
+    { field: 'description', width: 150, resizable: true },
+    { field: 'content', width: 700, resizable: true },
+    { field: 'parentId', resizable: true }
+  ];
+  private gridOptions = {
+    // PROPERTIES
+    pagination: true,
+    paginationAutoPageSize: true,
+    rowSelection: 'single',
+
+    // EVENTS
+    // Add event handlers
+    onRowClicked: event => null,
+    onGridReady: event => null,
+    firstDataRendered: event => this.myGrid.gridOptions.columnApi.autoSizeAllColumns(),
+
+    // CALLBACKS
+    isScrollLag: () => false
+  };
 
   constructor(
     private prescriptionToolService: PrescriptionToolService,
@@ -44,8 +65,9 @@ export class PrescriptionToolComponent implements OnInit {
     this.getPrescriptionTools();
   }
 
-  onRowSelected(row: number) {
-    this.getPrescriptionTool(row);
+  onSelectionChanged() {
+    var selectedRows = this.myGrid.api.getSelectedRows();
+    this.getPrescriptionTool(selectedRows[0].id);
   }
 
   addPrescriptionTool(): void {
@@ -102,7 +124,6 @@ export class PrescriptionToolComponent implements OnInit {
       .subscribe(
         prescriptiontools => {
           this.prescriptionTools = prescriptiontools;
-          this.dataTableComponent.onReloadGrid(prescriptiontools);
           this.form.reset({ description: '', content: '', parentid: '' });
         });
   }

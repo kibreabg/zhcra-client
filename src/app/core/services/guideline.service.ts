@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Guideline } from '../models/guideline';
 import { GuidelineType } from '../models/guidelinetype';
-import { baseUrl } from '@core/config';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,9 +14,9 @@ const httpOptions = {
 })
 export class GuidelineService {
 
-  private guidelineUrl = baseUrl + '/api/guidelines';
-  private guidelineTypeUrl = baseUrl + '/api/guidelinetypes';
-  private uploadUrl = baseUrl + '/api/guidelines/upload';
+  private guidelineUrl = environment.baseUrl + '/api/guidelines';
+  private guidelineTypeUrl = environment.baseUrl + '/api/guidelinetypes';
+  private uploadUrl = environment.baseUrl + '/api/guidelines/upload';
 
   constructor(private http: HttpClient) { }
 

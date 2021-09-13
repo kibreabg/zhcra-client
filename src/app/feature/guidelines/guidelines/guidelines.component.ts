@@ -3,9 +3,9 @@ import { Guideline } from '@core/models/guideline';
 import { LoginService } from '../../auth/services/login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GuidelineType } from '@core/models/guidelinetype';
-import { DataTableComponent } from '@shared/data-table/data-table.component';
 import { ConfirmDialogService } from '@core/index';
 import { GuidelineService } from '@core/index';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-guidelines',
@@ -21,17 +21,37 @@ export class GuidelinesComponent implements OnInit {
     order: new FormControl('', Validators.required),
   });
 
-  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+  @ViewChild('myGrid') myGrid: AgGridAngular;
 
-  guideline = new Guideline();
-  guidelines: Guideline[];
-  guidelinetypes: GuidelineType[];
-  selectedFile: File = null;
-  token = '';
-  message = '';
-  thisClass: any;
-  messageHidden: boolean;
-  uploadFolder = '';
+  private guideline = new Guideline();
+  private guidelines: Guideline[];
+  private guidelinetypes: GuidelineType[];
+  private selectedFile: File = null;
+  private token = '';
+  private message = '';
+  private messageHidden: boolean;
+  private uploadFolder = '';
+  private columnDefs = [
+    { field: '', checkboxSelection: true },
+    { field: 'title', width: 500, resizable: true },
+    { field: 'content', resizable: true },
+    { field: 'order', resizable: true }
+  ];
+  private gridOptions = {
+    // PROPERTIES
+    pagination: true,
+    paginationAutoPageSize: true,
+    rowSelection: 'single',
+
+    // EVENTS
+    // Add event handlers
+    onRowClicked: event => null,
+    onGridReady: event => null,
+    firstDataRendered: event => this.myGrid.gridOptions.columnApi.autoSizeAllColumns(),
+
+    // CALLBACKS
+    isScrollLag: () => false
+  };
 
   constructor(
     private guidelineService: GuidelineService,
@@ -47,10 +67,12 @@ export class GuidelinesComponent implements OnInit {
           this.guidelinetypes = guidelinetypes;
         });
     this.getGuidelines();
+    ;
   }
 
-  onRowSelected(row: number) {
-    this.getGuideline(row);
+  onSelectionChanged() {
+    var selectedRows = this.myGrid.api.getSelectedRows();
+    this.getGuideline(selectedRows[0].id);
   }
 
   addGuideline(): void {
@@ -112,7 +134,6 @@ export class GuidelinesComponent implements OnInit {
       .subscribe(
         guidelines => {
           this.guidelines = guidelines;
-          this.dataTableComponent.onReloadGrid(guidelines);
           this.form.reset({ title: '', type: '', content: '', order: '' });
         });
   }

@@ -26,6 +26,8 @@
     "@angular/platform-browser-dynamic": "^10.2.4",
     "@angular/router": "^10.2.4",
     "@coreui/coreui": "^3.4.0",
+    "ag-grid-angular": "^26.0.0",
+    "ag-grid-community": "^26.0.0",
     "bootstrap3": "^3.3.5",
     "chokidar": "^3.4.3",
     "core-js": "^2.5.4",

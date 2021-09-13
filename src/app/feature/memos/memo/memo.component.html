@@ -58,8 +58,11 @@
             <div class="card-header">
                 Memos List
             </div>
-            <div class="card-body">
-                <app-data-table (rowId)="onRowSelected($event)"></app-data-table>
+            <div class="card-body" style="flex: 1 1 auto;">
+                <ag-grid-angular #myGrid style="width: 100%; height: 500px;" [gridOptions]=gridOptions
+                    (selectionChanged)="onSelectionChanged($event)" class="ag-theme-alpine" [rowData]="memos"
+                    [columnDefs]="columnDefs">
+                </ag-grid-angular>
             </div>
         </div>
     </div>

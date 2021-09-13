@@ -8,7 +8,8 @@
         Enter Guideline Information
       </div>
       <div class="card-body">
-        <form class="form-validate form-horizontal" id="guidelineForm" enctype="multipart/form-data" (ngSubmit)="addGuideline()" [formGroup]="form">
+        <form class="form-validate form-horizontal" id="guidelineForm" enctype="multipart/form-data"
+          (ngSubmit)="addGuideline()" [formGroup]="form">
           <div class="form-group">
             <label class="col-form-label">Title</label>
             <mat-form-field class="full-width" appearance="outline">
@@ -76,8 +77,11 @@
       <div class="card-header">
         Guidelines List
       </div>
-      <div class="card-body">
-        <app-data-table (rowId)="onRowSelected($event)"></app-data-table>
+      <div class="card-body" style="flex: 1 1 auto;">
+        <ag-grid-angular #myGrid style="width: 100%; height: 500px;" [gridOptions]=gridOptions
+          (selectionChanged)="onSelectionChanged($event)" class="ag-theme-alpine" [rowData]="guidelines"
+          [columnDefs]="columnDefs">
+        </ag-grid-angular>
       </div>
     </div>
   </div>

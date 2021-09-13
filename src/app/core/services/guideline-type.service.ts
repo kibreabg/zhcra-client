@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GuidelineType } from '../models/guidelinetype';
-import { baseUrl } from '@core/config';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,8 +13,8 @@ const httpOptions = {
 })
 export class GuidelineTypeService {
 
-  private guidelineTypeUrl = baseUrl + '/api/guidelinetypes';
-  private uploadUrl = baseUrl + '/api/guidelinetypes/upload';
+  private guidelineTypeUrl = environment.baseUrl + '/api/guidelinetypes';
+  private uploadUrl = environment.baseUrl + '/api/guidelinetypes/upload';
 
   constructor(private http: HttpClient) { }
 

@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { QuickAccessTool } from '@core/models/quickaccesstools';
 import { QuickaccesstoolsService } from '@core/services/quickaccesstools.service';
 import { Router } from '@angular/router';
-import { HttpEventType } from '@angular/common/http';
 import { LoginService } from '../../auth/services/login.service';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { DataTableComponent } from '@shared/data-table/data-table.component';
 import { ViewChild } from '@angular/core';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { AgGridAngular } from 'ag-grid-angular';
 @Component({
   selector: 'app-quick-access-tools',
   templateUrl: './quick-access-tools.component.html',
@@ -23,19 +22,38 @@ export class QuickAccessToolsComponent implements OnInit {
     icon: new FormControl('', Validators.required),
   });
 
-  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+  @ViewChild('myGrid') myGrid: AgGridAngular;
 
-  quickaccesstool = new QuickAccessTool();
-  quickaccesstools: QuickAccessTool[];
-  dataTable: any;
-  selectedFile: File = null;
-  message = '';
-  uploadProgressPerc = '';
-  uploadIconProgressPerc = '';
-  token = '';
-  thisClass: any;
-  messageHidden: boolean;
-  uploadFolder = '';
+  private quickaccesstool = new QuickAccessTool();
+  private quickaccesstools: QuickAccessTool[];
+  private selectedFile: File = null;
+  private message = '';
+  private uploadProgressPerc = '';
+  private uploadIconProgressPerc = '';
+  private token = '';
+  private messageHidden: boolean;
+  private uploadFolder = '';
+  private columnDefs = [
+    { field: '', width: 20, checkboxSelection: true },
+    { field: 'title', width: 350, resizable: true },
+    { field: 'content', width: 600, resizable: true },
+    { field: 'icon', resizable: true }
+  ];
+  private gridOptions = {
+    // PROPERTIES
+    pagination: true,
+    paginationAutoPageSize: true,
+    rowSelection: 'single',
+
+    // EVENTS
+    // Add event handlers
+    onRowClicked: event => null,
+    onGridReady: event => null,
+    firstDataRendered: event => this.myGrid.gridOptions.columnApi.autoSizeAllColumns(),
+
+    // CALLBACKS
+    isScrollLag: () => false
+  };
 
   constructor(
     private quickAccessToolService: QuickaccesstoolsService,
@@ -50,8 +68,9 @@ export class QuickAccessToolsComponent implements OnInit {
     this.getQuickAccessTools();
   }
 
-  onRowSelected(row: number) {
-    this.getQuickAccessTool(row);
+  onSelectionChanged() {
+    var selectedRows = this.myGrid.api.getSelectedRows();
+    this.getQuickAccessTool(selectedRows[0].id);
   }
 
   addQuickAccessTool(): void {
@@ -115,7 +134,6 @@ export class QuickAccessToolsComponent implements OnInit {
       .subscribe(
         qatools => {
           this.quickaccesstools = qatools;
-          this.dataTableComponent.onReloadGrid(qatools);
           this.form.reset({ title: '', content: '', icon: '' });
         });
   }

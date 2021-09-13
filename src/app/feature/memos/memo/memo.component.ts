@@ -1,14 +1,13 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Memo } from '@core/models/memo';
 import { Router } from '@angular/router';
 import { LoginService } from '../../auth/services/login.service';
-import { HttpEventType } from '@angular/common/http';
 import { MemoService } from '@core/services/memo.service';
-import { DataTableComponent } from '@shared/data-table/data-table.component';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ConfirmDialogService } from '@core/services/confirm-dialog.service';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-memo',
@@ -23,17 +22,36 @@ export class MemoComponent implements OnInit {
     latest: new FormControl(''),
   });
 
-  @ViewChild(DataTableComponent) dataTableComponent: DataTableComponent;
+  @ViewChild('myGrid') myGrid: AgGridAngular;
 
-  memo = new Memo();
-  memos: Memo[];
-  dataTable: any;
-  selectedFile: File = null;
-  message = '';
-  uploadProgressPerc = '';
-  token = '';
-  thisClass: any;
-  messageHidden: boolean;
+  private memo = new Memo();
+  private memos: Memo[];
+  private selectedFile: File = null;
+  private message = '';
+  private uploadProgressPerc = '';
+  private token = '';
+  private messageHidden: boolean;
+  private columnDefs = [
+    { field: '', width: 50, checkboxSelection: true },
+    { field: 'title', width: 500, resizable: true },
+    { field: 'url', width: 500, resizable: true },
+    { field: 'latest', resizable: true }
+  ];
+  private gridOptions = {
+    // PROPERTIES
+    pagination: true,
+    paginationAutoPageSize: true,
+    rowSelection: 'single',
+
+    // EVENTS
+    // Add event handlers
+    onRowClicked: event => null,
+    onGridReady: event => null,
+    firstDataRendered: event => this.myGrid.gridOptions.columnApi.autoSizeAllColumns(),
+
+    // CALLBACKS
+    isScrollLag: () => false
+  };
 
   constructor(
     private memoService: MemoService,
@@ -48,10 +66,10 @@ export class MemoComponent implements OnInit {
     this.getMemos();
   }
 
-  onRowSelected(row: number) {
-    this.getMemo(row);
+  onSelectionChanged() {
+    var selectedRows = this.myGrid.api.getSelectedRows();
+    this.getMemo(selectedRows[0].id);
   }
-
 
   addMemo(): void {
     if (this.memo.id > 0) {
@@ -113,7 +131,6 @@ export class MemoComponent implements OnInit {
       .subscribe(
         memos => {
           this.memos = memos;
-          this.dataTableComponent.onReloadGrid(memos);
           this.form.reset({ title: '', url: '', latest: '' });
         });
   }

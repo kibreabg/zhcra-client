@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { QuickAccessTool } from '../models/quickaccesstools';
-import { baseUrl } from '@core/config';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,8 +13,8 @@ const httpOptions = {
 })
 export class QuickaccesstoolsService {
 
-  private quickAccessToolUrl = baseUrl + '/api/quickaccesstools'; 
-  private uploadUrl = baseUrl + '/api/quickaccesstools/upload'; 
+  private quickAccessToolUrl = environment.baseUrl + '/api/quickaccesstools'; 
+  private uploadUrl = environment.baseUrl + '/api/quickaccesstools/upload'; 
 
   constructor(private http: HttpClient) { }
 
